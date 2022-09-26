@@ -39,12 +39,11 @@
         if (searchQuery.value !== "") {
           try {
             const result = await testApi(searchQuery.value)
-          mapboxSearchResults.value = result.features;
+          mapboxSearchResults.value = result.english;
           } catch (error) {
             searchError.value = true;
 
-          }
-          
+          }  
           return;
         }
         mapboxSearchResults.value = null;

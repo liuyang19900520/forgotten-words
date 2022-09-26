@@ -2,7 +2,9 @@ import axios, { AxiosInstance } from "axios";
 
 const apiClient: AxiosInstance = axios.create({
   // APIのURI
-  baseURL: "https://api.mapbox.com/geocoding/v5/",
+  baseURL: "http://localhost:3000",
+  //baseURL: "https://90wyj1w04m.execute-api.ap-northeast-1.amazonaws.com/prod",
+  //baseURL: "https://api.mapbox.com/geocoding/v5/",
   // リクエストヘッダ
   //   headers: {
   //     "Content-type": "application/json",
