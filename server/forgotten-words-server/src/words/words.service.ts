@@ -6,12 +6,8 @@ import { WordsRepository } from './words.repository';
 export class WordsService {
   constructor(private readonly wordsRepository: WordsRepository) {}
 
-  private words: Array<WordModel> = [];
-
-  public findAll(): Array<WordModel> {
-    const word1: WordModel = { id: 1, english: 'test' };
-    this.words.push(word1);
-    this.wordsRepository.getAll();
-    return this.words;
+  public async findAll(inputWord: string): Promise<WordModel[]> {
+    const result = await this.wordsRepository.findAll(inputWord);
+    return result;
   }
 }
