@@ -10,4 +10,9 @@ export class WordsService {
     const result = await this.wordsRepository.findAll(inputWord);
     return result;
   }
+
+  public async findItem(id: number): Promise<WordModel> {
+    const result = await this.wordsRepository.findItem(id);
+    return result;
+  }
 }

@@ -12,4 +12,8 @@ export const testApi1 = (data: string): Promise<TestData> =>
       data +
       ".json?access_token=pk.eyJ1Ijoiam9obmtvbWFybmlja2kiLCJhIjoiY2t5NjFzODZvMHJkaDJ1bWx6OGVieGxreSJ9.IpojdT3U3NENknF6_WhR2Q&types=place"
   );
-export const testApi = (data: string): Promise<TestData> => http.get("/words");
+export const testApi = (data: string): Promise<TestData> =>
+  http.get("/words?inputWord=" + data);
+
+export const findWord = (id: number): Promise<TestData> =>
+  http.get("/words/ " + id);
