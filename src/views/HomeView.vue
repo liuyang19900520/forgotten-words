@@ -30,7 +30,6 @@
         </template>
       </ul>
     </div>
-    <span>{{ aaa }}</span>
   </main>
 </template>
 <script lang="ts" setup>
@@ -39,7 +38,6 @@ import { testApi } from "../apis/WordsApiService";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const aaa = 123;
 const searchQuery = ref("");
 const queryTimeout = ref(0);
 const mapboxSearchResults = ref();
