@@ -1,19 +1,16 @@
 import http from "./http-common";
 
-interface TestData {
-  type: string;
-  query: any;
-  features: any;
-  attribution: string;
+interface Word {
+  id: string;
+  english: string;
+  chinese: string;
+  japanese: string;
 }
-export const testApi1 = (data: string): Promise<TestData> =>
-  http.get(
-    "/mapbox.places/" +
-      data +
-      ".json?access_token=pk.eyJ1Ijoiam9obmtvbWFybmlja2kiLCJhIjoiY2t5NjFzODZvMHJkaDJ1bWx6OGVieGxreSJ9.IpojdT3U3NENknF6_WhR2Q&types=place"
-  );
-export const testApi = (data: string): Promise<TestData> =>
+
+export const findAll = (): Promise<Word> => http.get("/words");
+
+export const searchWord = (data: string): Promise<Word> =>
   http.get("/words?inputWord=" + data);
 
-export const findWord = (id: number): Promise<TestData> =>
+export const findWord = (id: string): Promise<Word> =>
   http.get("/words/ " + id);

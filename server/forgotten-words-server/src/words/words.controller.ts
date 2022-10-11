@@ -17,8 +17,8 @@ export class WordsController {
 
   @Get("/:id")
   public async findItem(
-    @Param("id") id: number
+    @Param("id") id: string
   ): Promise<WordModel> {
-    return await this.wordsService.findItem(id);
+    return await this.wordsService.findItem(id.trim());
   }
 }

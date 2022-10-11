@@ -25,7 +25,9 @@
             class="py-2 cursor-pointer"
             @click="previewWord(searchResult.id)"
           >
-            {{ searchResult.id }}
+            {{ searchResult.english }} / {{ searchResult.chinese }} /{{
+              searchResult.japanese
+            }}
           </li>
         </template>
       </ul>
@@ -34,29 +36,23 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { testApi } from "../apis/WordsApiService";
+import { searchWord } from "../apis/WordsApiService";
 import { useRouter } from "vue-router";
+import { debounce } from "lodash";
 
 const router = useRouter();
 const searchQuery = ref("");
-const queryTimeout = ref(0);
 const mapboxSearchResults = ref();
 const searchError = ref(false);
-const getSearchResults = () => {
-  clearTimeout(queryTimeout.value);
-  queryTimeout.value = setTimeout(async () => {
-    if (searchQuery.value !== "") {
-      try {
-        const result = await testApi(searchQuery.value);
-        mapboxSearchResults.value = result;
-      } catch {
-        searchError.value = true;
-      }
-      return;
-    }
-    mapboxSearchResults.value = null;
-  }, 300);
-};
+
+const getSearchResults = debounce(async () => {
+  try {
+    const result = await searchWord(searchQuery.value);
+    mapboxSearchResults.value = result;
+  } catch {
+    searchError.value = true;
+  }
+}, 2000);
 
 const previewWord = (id: number) => {
   router.push({

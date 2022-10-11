@@ -11,7 +11,7 @@ export class WordsService {
     return result;
   }
 
-  public async findItem(id: number): Promise<WordModel> {
+  public async findItem(id: string): Promise<WordModel> {
     const result = await this.wordsRepository.findItem(id);
     return result;
   }
