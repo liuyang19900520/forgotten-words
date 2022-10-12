@@ -3,7 +3,7 @@
     <!-- Banner -->
     <div
       v-if="route.query.preview"
-      class="text-white p-4 bg-weather-secondary w-full text-center"
+      class="text-white p-4 bg-secondary w-full text-center"
     >
       <p>Wrong Word !</p>
     </div>

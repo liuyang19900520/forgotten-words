@@ -6,10 +6,10 @@
         v-model="searchQuery"
         @input="getSearchResults"
         placeholder="Search for a city or state"
-        class="py-2 px-1 w-full bg-transparent border-b focus:border-weather-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
+        class="py-2 px-1 w-full bg-transparent border-b focus:border-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
       />
       <ul
-        class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
+        class="absolute bg-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
         v-if="mapboxSearchResults"
       >
         <p class="py-2" v-if="searchError">
@@ -32,6 +32,12 @@
         </template>
       </ul>
     </div>
+    <div class="flex flex-col gap-4">
+      <Suspense>
+        <WordList />
+        <template #fallback> <WordCardSkeleton /> </template>
+      </Suspense>
+    </div>
   </main>
 </template>
 <script lang="ts" setup>
@@ -39,6 +45,8 @@ import { ref } from "vue";
 import { searchWord } from "../apis/WordsApiService";
 import { useRouter } from "vue-router";
 import { debounce } from "lodash";
+import WordList from "../components/WordList.vue";
+import WordCardSkeleton from "../components/WordCardSkeleton.vue";
 
 const router = useRouter();
 const searchQuery = ref("");
