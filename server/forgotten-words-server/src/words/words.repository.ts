@@ -23,11 +23,10 @@ export class WordsRepository {
        */
       //KeyConditionExpression: 'id = :s',
       ExpressionAttributeValues: {
-        //':s': '222',
-        ":english": inputWord
+        ":inputWord": inputWord
       },
       // Filter that returns only episodes that meet previous criteria and have the subtitle 'The Return'
-      FilterExpression: "english = :english"
+      FilterExpression: "begins_with(english,:inputWord) or begins_with(japanese,:inputWord) or begins_with(chinese,:inputWord)"
     };
 
     if (isNil(inputWord)||isEmpty(inputWord)) {

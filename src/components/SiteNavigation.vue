@@ -17,6 +17,7 @@
         ></i>
         <i
           class="fa-solid fa-plus text-xl hover:text--secondary duration-150 cursor-pointer"
+          @click="insertWord"
         ></i>
       </div>
       <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
@@ -58,7 +59,16 @@ import { RouterLink } from "vue-router";
 import { ref } from "vue";
 import BaseModal from "./BaseModal.vue";
 const modalActive = ref(false);
+const insertModalActive = ref(false);
 const toggleModal = () => {
   modalActive.value = !modalActive.value;
+};
+
+const insertWord = () => {
+  insertModalActive.value = true;
+};
+
+const closeModel = () => {
+  insertModalActive.value = false;
 };
 </script>
