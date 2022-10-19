@@ -1,6 +1,6 @@
 import http from "./http-common";
 
-interface Word {
+export interface Word {
   id: string;
   english: string;
   chinese: string;

@@ -10,21 +10,18 @@
 
     <div class="max-w-screen-md w-full py-12">
       <div class="mx-8 text-white">
-        <h2 class="mb-4">English</h2>
-        <div class="flex flex-col items-center text-white py-12">
-          <input
-            class="text-4xl mb-2 bg-inherit"
-            v-model="mapboxSearchResults.english"
-          />
-        </div>
-        <h2 class="mb-4">日本語</h2>
-        <div class="flex flex-col items-center text-white py-12">
-          <h1 class="text-4xl mb-2">{{ mapboxSearchResults.japanese }}</h1>
-        </div>
-        <h2 class="mb-4">中文</h2>
-        <div class="flex flex-col items-center text-white py-12">
-          <h1 class="text-4xl mb-2">{{ mapboxSearchResults.chinese }}</h1>
-        </div>
+        <AsyncWordCardView
+          :language="`▲ English`"
+          :word="mapboxSearchResults.english"
+        />
+        <AsyncWordCardView
+          :language="`◆ 日本語`"
+          :word="mapboxSearchResults.japanese"
+        />
+        <AsyncWordCardView
+          :language="`★ 简体中文`"
+          :word="mapboxSearchResults.chinese"
+        />
       </div>
     </div>
   </div>
@@ -33,7 +30,8 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { useRoute } from "vue-router";
-import { findWord } from "../apis/WordsApiService";
+import { findWord, Word } from "../apis/WordsApiService";
+import AsyncWordCardView from "./AsyncWordCardView.vue";
 
 let mapboxSearchResults = reactive({
   english: "",
@@ -43,10 +41,12 @@ let mapboxSearchResults = reactive({
 const searchError = ref(false);
 const route = useRoute();
 
-try {
-  let data = await findWord(route.params.id);
-  mapboxSearchResults = data[0];
-} catch {
-  searchError.value = true;
+if (route.params.id != null) {
+  try {
+    let data: Word = await findWord(route.params.id);
+    mapboxSearchResults = data[0];
+  } catch {
+    searchError.value = true;
+  }
 }
 </script>

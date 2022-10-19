@@ -11,6 +11,11 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: "/words/",
+      name: "wordViewInsert",
+      component: WordView,
+    },
+    {
       path: "/words/:id",
       name: "wordView",
       component: WordView,
