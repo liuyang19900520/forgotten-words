@@ -1,11 +1,11 @@
-import { ScanCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { ScanCommand, QueryCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import { ddbDocClient } from "../db/ddbDocClient";
 import { WordModel } from "./words.interface";
-import {isNil,isEmpty} from 'lodash'
+import { isNil, isEmpty } from "lodash";
 
 export class WordsRepository {
   public async findAll(inputWord: string): Promise<WordModel[]> {
-    console.log("this is inputWord:",inputWord)
+    console.log("this is inputWord:", inputWord);
 
     let words: WordModel[];
     let params = {
@@ -29,12 +29,12 @@ export class WordsRepository {
       FilterExpression: "begins_with(english,:inputWord) or begins_with(japanese,:inputWord) or begins_with(chinese,:inputWord)"
     };
 
-    if (isNil(inputWord)||isEmpty(inputWord)) {
+    if (isNil(inputWord) || isEmpty(inputWord)) {
       params.ExpressionAttributeValues = undefined;
       params.FilterExpression = undefined;
     }
     try {
-      console.log(params)
+      console.log(params);
       const data = await ddbDocClient.send(new ScanCommand(params));
       words = JSON.parse(JSON.stringify(data.Items));
       return words;
@@ -59,5 +59,21 @@ export class WordsRepository {
     } catch (err) {
       console.log("Error", err);
     }
+  }
+
+  public async deleteItem(id: string): Promise<void> {
+    const params = {
+      TableName: "Words",
+      Key: {
+        primaryKey: id
+      }
+    };
+    try {
+      await ddbDocClient.send(new DeleteCommand(params));
+      console.log("Success - item deleted");
+    } catch (err) {
+      console.log("Error", err);
+    }
+
   }
 }

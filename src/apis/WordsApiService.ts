@@ -12,5 +12,7 @@ export const findAll = (): Promise<Word> => http.get("/words");
 export const searchWord = (data: string): Promise<Word> =>
   http.get("/words?inputWord=" + data);
 
-export const findWord = (id: string): Promise<Word> =>
-  http.get("/words/ " + id);
+export const findWord = (id: string): Promise<Word> => http.get("/words/" + id);
+
+export const deleteWord = (id: string): Promise<void> =>
+  http.delete("/words/" + id);

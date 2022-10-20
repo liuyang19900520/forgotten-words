@@ -1,14 +1,14 @@
 <template>
   <div class="flex flex-col flex-1 items-center">
-    <!-- Banner -->
     <div
-      v-if="route.query.preview"
+      v-if="router.query.preview"
       class="text-white p-4 bg-secondary w-full text-center"
     >
       <p>Wrong Word !</p>
     </div>
 
-    <div class="max-w-screen-md w-full py-12">
+    <!--Word Card View-->
+    <div class="max-w-screen-md w-full py-4">
       <div class="mx-8 text-white">
         <AsyncWordCardView
           :language="`▲ English`"
@@ -24,13 +24,31 @@
         />
       </div>
     </div>
+    <!--Save Button-->
+    <div class="flex flex-row mb-8">
+      <div
+        class="flex gap-2 text-white cursor-pointer duration-150 hover:text-green-500 mx-12"
+        @click="saveWord"
+      >
+        <i class="fa-solid fa-save"></i>
+        <p>Save Word</p>
+      </div>
+
+      <div
+        class="flex gap-2 text-white cursor-pointer duration-150 hover:text-red-500 mx-12"
+        @click="removeWord"
+      >
+        <i class="fa-solid fa-trash"></i>
+        <p>Delete Word</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { useRoute } from "vue-router";
-import { findWord, Word } from "../apis/WordsApiService";
+import { useRouter } from "vue-router";
+import { findWord, deleteWord, Word } from "../apis/WordsApiService";
 import AsyncWordCardView from "./AsyncWordCardView.vue";
 
 let mapboxSearchResults = reactive({
@@ -39,14 +57,22 @@ let mapboxSearchResults = reactive({
   japanese: "",
 });
 const searchError = ref(false);
-const route = useRoute();
+const router = useRouter();
 
-if (route.params.id != null) {
+if (router.params.id != null) {
   try {
-    let data: Word = await findWord(route.params.id);
+    let data: Word = await findWord(router.params.id);
     mapboxSearchResults = data[0];
   } catch {
     searchError.value = true;
   }
 }
+const saveWord = () => {};
+
+const removeWord = () => {
+  deleteWord(router.params.id);
+  router.push({
+    name: "home",
+  });
+};
 </script>

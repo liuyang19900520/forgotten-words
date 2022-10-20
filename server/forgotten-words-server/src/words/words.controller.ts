@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Controller, Delete, Get, Param, Query } from "@nestjs/common";
 import { WordModel } from "./words.interface";
 import { WordsService } from "./words.service";
 
@@ -11,7 +11,6 @@ export class WordsController {
   public async findAll(
     @Query("inputWord") inputWord: string
   ): Promise<WordModel[]> {
-    console.log(("test parma"), inputWord);
     return await this.wordsService.findAll(inputWord);
   }
 
@@ -20,5 +19,13 @@ export class WordsController {
     @Param("id") id: string
   ): Promise<WordModel> {
     return await this.wordsService.findItem(id.trim());
+  }
+
+  @Delete(":id")
+  public async deleteItem(
+    @Param("id") id: string
+  ): Promise<void> {
+    console.log("@@@@@@@@@", id);
+    await this.wordsService.deleteItem(id.trim());
   }
 }
