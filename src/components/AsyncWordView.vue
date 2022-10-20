@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col flex-1 items-center">
     <div
-      v-if="router.query.preview"
+      v-if="route.query.preview"
       class="text-white p-4 bg-secondary w-full text-center"
     >
       <p>Wrong Word !</p>
@@ -47,7 +47,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { findWord, deleteWord, Word } from "../apis/WordsApiService";
 import AsyncWordCardView from "./AsyncWordCardView.vue";
 
@@ -57,20 +57,22 @@ let mapboxSearchResults = reactive({
   japanese: "",
 });
 const searchError = ref(false);
-const router = useRouter();
+const route = useRoute();
 
-if (router.params.id != null) {
+if (route.params.id != null) {
   try {
-    let data: Word = await findWord(router.params.id);
+    let data: Word = await findWord(route.params.id);
     mapboxSearchResults = data[0];
   } catch {
     searchError.value = true;
   }
 }
+const router = useRouter();
+
 const saveWord = () => {};
 
 const removeWord = () => {
-  deleteWord(router.params.id);
+  deleteWord(route.params.id);
   router.push({
     name: "home",
   });

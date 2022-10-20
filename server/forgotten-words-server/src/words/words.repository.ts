@@ -5,8 +5,6 @@ import { isNil, isEmpty } from "lodash";
 
 export class WordsRepository {
   public async findAll(inputWord: string): Promise<WordModel[]> {
-    console.log("this is inputWord:", inputWord);
-
     let words: WordModel[];
     let params = {
       TableName: "Words",
@@ -34,7 +32,6 @@ export class WordsRepository {
       params.FilterExpression = undefined;
     }
     try {
-      console.log(params);
       const data = await ddbDocClient.send(new ScanCommand(params));
       words = JSON.parse(JSON.stringify(data.Items));
       return words;
@@ -62,10 +59,11 @@ export class WordsRepository {
   }
 
   public async deleteItem(id: string): Promise<void> {
+    console.error("delete id ", id);
     const params = {
       TableName: "Words",
       Key: {
-        primaryKey: id
+        id: id
       }
     };
     try {
