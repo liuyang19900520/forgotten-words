@@ -8,12 +8,8 @@
         placeholder="Search for a city or state"
         class="py-2 px-1 w-full bg-transparent border-b focus:border-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]"
       />
-      <tk-select selected="请选择">
-        <template #selectDropDown>
-          <tk-select-item value="最新案例">最新案例</tk-select-item>
-          <tk-select-item value="最热案例">最热案例</tk-select-item>
-        </template>
-      </tk-select>
+      <SelectBar />
+
       <ul
         class="absolute bg-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
         v-if="mapboxSearchResults"
@@ -53,7 +49,7 @@ import { useRouter } from "vue-router";
 import { debounce } from "lodash";
 import WordList from "../components/WordList.vue";
 import WordCardSkeleton from "../components/WordCardSkeleton.vue";
-import TkSelect from "../components/select/select.vue";
+import SelectBar from "../components/SelectBar.vue";
 import TkSelectItem from "../components/select/select-item.vue";
 
 const router = useRouter();

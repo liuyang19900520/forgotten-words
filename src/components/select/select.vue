@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { tokenFun } from "../../utils/token.js";
+import { tokenFun } from "../../utils/token";
 import Bus from "./selectBus";
 import {
   ref,
@@ -51,8 +51,8 @@ export default {
     const page = getCurrentInstance();
 
     // 获取按钮
-    const select_button = ref(null);
-    const select_dropdown = ref(null);
+    const select_button = ref<null | { open: () => null }>(null);
+    const select_dropdown = ref<null | { open: () => null }>(null);
 
     // 打开状态
     const selectOpen = ref(false);
@@ -62,6 +62,22 @@ export default {
 
     // 下拉框位置
     const dropdownPosition = ref({ x: 0, y: 0, w: 0 });
+
+    const getMaxLength = () => {
+      let items = ctx.slots.selectDropDown();
+      console.log(items);
+      let maxLength = 0;
+      if (items) {
+        items.forEach(function (element) {
+          if (maxLength < element.props.value.length) {
+            maxLength = element.props.value.length;
+          }
+        });
+      }
+      return maxLength;
+    };
+
+    const maxL = getMaxLength();
 
     // 下拉框位置
     const dropdownStyle = computed(() => {
@@ -84,25 +100,25 @@ export default {
 
     // 计算位置
     function calculateLocation() {
-      var select_button_dom = select_button.value.getBoundingClientRect();
-      dropdownPosition.value.w = select_button_dom.width;
+      var select_button_dom = select_button.value?.getBoundingClientRect();
+      dropdownPosition.value.w = maxL * 20;
       dropdownPosition.value.x = select_button_dom.left;
       dropdownPosition.value.y =
-        select_button_dom.top + select_button_dom.height + 5;
+        select_button_dom.top + select_button_dom.height + 3;
     }
 
     window.addEventListener("click", (event) => {
       if (
-        !select_button.value.contains(event.target) &&
-        !select_dropdown.value.contains(event.target)
+        !select_button.value?.contains(event.target) &&
+        !select_dropdown.value?.contains(event.target)
       ) {
         selectOpen.value = false;
       }
     });
     window.addEventListener("touchstart", (event) => {
       if (
-        !select_button.value.contains(event.target) &&
-        !select_dropdown.value.contains(event.target)
+        !select_button.value?.contains(event.target) &&
+        !select_dropdown.value?.contains(event.target)
       ) {
         selectOpen.value = false;
       }
@@ -164,14 +180,11 @@ export default {
 <style scoped>
 .tk-select-button {
   width: 100%;
-  height: 48px;
-  padding: 0 16px;
   border-radius: 12px;
+  margin-top: 8x;
   font-size: 14px;
   font-weight: 500;
-  line-height: 48px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   cursor: pointer;
   transition: border 0.2s;
@@ -200,7 +213,7 @@ export default {
 .tk-select-dropdown ul {
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(35, 38, 47, 0.1);
+  box-shadow: 0 4px 12px rgba(5, 17, 52, 0.1);
 }
 .select-enter-from,
 .select-leave-to {

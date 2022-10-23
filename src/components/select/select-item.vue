@@ -1,4 +1,3 @@
-<!-- select-item.vue -->
 <template>
   <li
     class="tk-select-item"
@@ -9,16 +8,46 @@
   </li>
 </template>
 
-<script lang="ts">
-// 引入Bus
+<script>
 import Bus from "./selectBus";
+import { ref, getCurrentInstance, inject, onDeactivated } from "vue";
 export default {
+  name: "TkSelectItem",
+  props: ["value"],
   setup(props) {
-    // 当选项被点击时
+    const page = getCurrentInstance();
+
+    const active = ref(false);
+
+    // 接收token
+    const token = inject("token");
+    page.token = token;
+    Bus.$on("chooseActive", (res) => {
+      if (res.token !== page.token) return;
+      if (res.value == props.value) active.value = true;
+      else active.value = false;
+    });
+
+    // 选择下拉
     function chooseSelectItem() {
-      // 将被点击项目的value返回给select
-      Bus.$emit("chooseSelectItem", props.value);
+      Bus.$emit("chooseSelectItem", { token: token, value: props.value });
     }
+
+    onDeactivated(() => {
+      Bus.$off("chooseActive");
+    });
+
+    return {
+      chooseSelectItem,
+      active,
+      token,
+    };
   },
 };
 </script>
+
+<style scoped>
+.tk-select-item {
+  color: white;
+}
+</style>
