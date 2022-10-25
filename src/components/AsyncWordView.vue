@@ -6,6 +6,16 @@
     >
       <p>Wrong Word !</p>
     </div>
+    <div class="text-white mt-6">
+      <var-style-provider :style-vars="radioStyle">
+        <var-rate v-model="score" :count="8" />
+        <var-radio-group v-model="wordType">
+          <var-radio :checked-value="0">Word</var-radio>
+          <var-radio :checked-value="1">Phrase</var-radio>
+          <var-radio :checked-value="2">Sentence</var-radio>
+        </var-radio-group>
+      </var-style-provider>
+    </div>
 
     <!--Word Card View-->
     <div class="max-w-screen-md w-full py-4">
@@ -51,12 +61,20 @@ import { useRoute, useRouter } from "vue-router";
 import { findWord, deleteWord, Word } from "../apis/WordsApiService";
 import AsyncWordCardView from "./AsyncWordCardView.vue";
 
+const radioCss = {
+  "--rate-primary-color": "white",
+  "--radio-checked-color": "white",
+  "--radio-unchecked-color": "white",
+};
+const radioStyle = ref(radioCss);
 let mapboxSearchResults = reactive({
   english: "",
   chinese: "",
   japanese: "",
 });
 const searchError = ref(false);
+const wordType = ref(0);
+const score = ref(0);
 const route = useRoute();
 
 if (route.params.id != null) {
@@ -78,3 +96,7 @@ const removeWord = () => {
   });
 };
 </script>
+<style scoped>
+:root {
+}
+</style>
