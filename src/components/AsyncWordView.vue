@@ -1,12 +1,14 @@
 <template>
-  <div class="flex flex-col flex-1 items-center">
+  <div class="flex flex-col flex-1 items-center overflow-hidden">
     <div
       v-if="route.query.preview"
       class="text-white p-4 bg-secondary w-full text-center"
     >
       <p>Wrong Word !</p>
     </div>
-    <div class="text-white mt-6">
+    <div class="bg-white">5</div>
+    <div class="bg-red">4</div>
+    <div class="text-white items-center mt-2">
       <var-style-provider :style-vars="radioStyle">
         <var-rate v-model="score" :count="8" />
         <var-radio-group v-model="wordType">
@@ -16,10 +18,11 @@
         </var-radio-group>
       </var-style-provider>
     </div>
-
     <!--Word Card View-->
     <div class="max-w-screen-md w-full py-4">
       <div class="mx-8 text-white">
+        <SelectBar />
+
         <AsyncWordCardView
           :language="`▲ English`"
           :word="mapboxSearchResults.english"
@@ -34,6 +37,7 @@
         />
       </div>
     </div>
+
     <!--Save Button-->
     <div class="flex flex-row mb-8">
       <div

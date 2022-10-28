@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row align-middle">
-    <div class="flex flex-row align-middle">
+    <div class="flex flex-row align-middle float-left">
       <span class="mr-2 text-base">Serial</span>
 
       <tk-select selected="ーー">

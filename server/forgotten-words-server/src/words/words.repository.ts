@@ -72,6 +72,20 @@ export class WordsRepository {
     } catch (err) {
       console.log("Error", err);
     }
+  }
 
+  public async insertItem(word: WordModel): Promise<void> {
+    const params = {
+      TableName: "Words",
+      Key: {
+        id: word.id
+      }
+    };
+    try {
+      await ddbDocClient.send(new DeleteCommand(params));
+      console.log("Success - item deleted");
+    } catch (err) {
+      console.log("Error", err);
+    }
   }
 }
