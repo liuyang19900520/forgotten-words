@@ -1,4 +1,5 @@
-export interface WordModel {
+
+export class CreateWordDto {
   id: number;
   english?: string;
   japanese?: string;
@@ -6,6 +7,6 @@ export interface WordModel {
   inputType?: string;
   series?: string;
   episode?: string;
-  isFavorite?: boolean;
-
+  favoriteStar?: number;
+  user?:string;
 }

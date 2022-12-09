@@ -1,14 +1,32 @@
-import { Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
-@Entity('word',{name:'words'})
-export class Word{
+@Entity()
+export class Word {
   @PrimaryGeneratedColumn()
   id: number;
+  @Column()
   english?: string;
+  @Column()
   japanese?: string;
+  @Column()
   chinese?: string;
-  inputType?: string;
+  @Column()
+  type?: string;
+  @Column()
   series?: string;
+  @Column()
   episode?: string;
-  isFavorite?: boolean;
+  @Column()
+  favoriteStar?: number;
+  @Column()
+  deleteFlg?: string;
+  @Column()
+  createUser?: string;
+  @Column()
+  createTime?: Date;
+  @Column()
+  updateUser?: string;
+  @Column()
+  updateTime?: Date;
+
 }
