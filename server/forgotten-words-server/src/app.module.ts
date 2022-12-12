@@ -1,30 +1,38 @@
-import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-import { WordsModule } from "./words/words.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { Word } from "./words/word.eneity";
-import { WordsController } from "./words/words.controller";
-import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { DefaultNamingStrategy } from "typeorm";
-import ForgottenWordsNamingStrategy from "./common/ForgottenWordsNamingStrategy";
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
+import { AppDummy } from './app.dummy';
+import { AppJapanService } from './app.japan.service';
+import { AppService } from './app.service';
+import ormConfig from './config/orm.config';
+import ormConfigProd from './config/orm.config.prod';
+import { EventsModule } from './events/events.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: "postgres",
-    host: "172.16.33.33",
-    port: 5432,
-    username: "postgres",
-    password: "postgres",
-    database: "forgotten_words",
-    schema:"dev",
-    entities: [Word],
-    namingStrategy: new ForgottenWordsNamingStrategy(),
-  }), TypeOrmModule.forFeature([Word])
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [ormConfig],
+      expandVariables: true
+    }),
+    TypeOrmModule.forRootAsync({
+      useFactory: process.env.NODE_ENV !== 'production'
+        ? ormConfig : ormConfigProd
+    }),
+    EventsModule
   ],
-  controllers: [AppController, WordsController],
-  providers: [AppService]
-
+  controllers: [AppController],
+  providers: [{
+    provide: AppService,
+    useClass: AppJapanService
+  }, {
+    provide: 'APP_NAME',
+    useValue: 'Nest Events Backend!'
+  }, {
+    provide: 'MESSAGE',
+    inject: [AppDummy],
+    useFactory: (app) => `${app.dummy()} Factory!`
+  }, AppDummy],
 })
-export class AppModule {
-}
+export class AppModule { }
