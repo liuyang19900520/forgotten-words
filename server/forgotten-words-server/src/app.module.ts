@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
 import { EventsModule } from './events/events.module';
+import { WordModule } from './word/word.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { EventsModule } from './events/events.module';
       useFactory: process.env.NODE_ENV !== 'production'
         ? ormConfig : ormConfigProd
     }),
-    EventsModule
+    EventsModule,
+    WordModule
   ],
   controllers: [AppController],
   providers: [{
