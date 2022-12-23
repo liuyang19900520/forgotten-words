@@ -1,6 +1,5 @@
 import { registerAs } from "@nestjs/config";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { Event } from "./../events/event.entity";
 import { Word } from "../word/entities/word.entity";
 
 export default registerAs(
@@ -13,7 +12,7 @@ export default registerAs(
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     schema: process.env.DB_SCHEMA,
-    entities: [Event, Word],
+    entities: [Word],
     synchronize: false
   })
 );
