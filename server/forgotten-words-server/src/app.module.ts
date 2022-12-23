@@ -1,15 +1,14 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppDummy } from './app.dummy';
-import { AppJapanService } from './app.japan.service';
-import { AppService } from './app.service';
-import ormConfig from './config/orm.config';
-import ormConfigProd from './config/orm.config.prod';
-import { EventsModule } from './events/events.module';
-import { WordModule } from './word/word.module';
-
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppController } from "./app.controller";
+import { AppDummy } from "./app.dummy";
+import { AppJapanService } from "./app.japan.service";
+import { AppService } from "./app.service";
+import ormConfig from "./config/orm.config";
+import ormConfigProd from "./config/orm.config.prod";
+import { EventsModule } from "./events/events.module";
+import { WordModule } from "./word/word.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,23 +17,24 @@ import { WordModule } from './word/word.module';
       expandVariables: true
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: process.env.NODE_ENV !== 'production'
+      useFactory: process.env.NODE_ENV !== "production"
         ? ormConfig : ormConfigProd
     }),
     EventsModule,
-    WordModule
+    WordModule,
   ],
   controllers: [AppController],
   providers: [{
     provide: AppService,
     useClass: AppJapanService
   }, {
-    provide: 'APP_NAME',
-    useValue: 'Nest Events Backend!'
+    provide: "APP_NAME",
+    useValue: "Nest Events Backend!"
   }, {
-    provide: 'MESSAGE',
+    provide: "MESSAGE",
     inject: [AppDummy],
     useFactory: (app) => `${app.dummy()} Factory!`
-  }, AppDummy],
+  }, AppDummy]
 })
-export class AppModule { }
+export class AppModule {
+}
