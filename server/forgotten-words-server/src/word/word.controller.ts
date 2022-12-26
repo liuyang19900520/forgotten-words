@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Logger, Param, Post, Put } from "@nestjs
 import { WordService } from "./word.service";
 import { CreateWordDto } from "./dto/create-word.dto";
 import { UpdateWordDto } from "./dto/update-word.dto";
+import e from "express";
 
 @Controller("words")
 export class WordController {
@@ -19,8 +20,7 @@ export class WordController {
   @Get()
   async findAll() {
     let promise = await this.wordService.findAll();
-    let e=1/0;
-    this.logger.error(e);
+    this.logger.log(promise);
     return promise;
   }
 

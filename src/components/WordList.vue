@@ -11,14 +11,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { searchWord } from "../apis/WordsApiService";
+import { findAll, searchWord } from "../apis/WordsApiService";
 import WordCard from "./WordCard.vue";
 
 const savedWords = ref();
 try {
-  const result = await searchWord("");
-  savedWords.value = result;
-  console.log(result);
+  const result = await findAll();
+  if (result.code == "0") {
+    savedWords.value = result.data;
+    console.log(result);
+  }
 } catch {
   console.error("");
 }
