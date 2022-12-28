@@ -3,9 +3,7 @@
     <WordCard :word="word" @click="goToWordView(word.id)" />
   </div>
 
-  <p v-if="savedWords.length === 0">
-    No locations added. To start tracking a location, search in the field above.
-  </p>
+  <p v-if="savedWords.length === 0">No saved words .</p>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +22,6 @@ try {
 } catch {
   console.error("");
 }
-
 const router = useRouter();
 const goToWordView = (id: number) => {
   router.push({

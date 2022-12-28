@@ -1,17 +1,30 @@
-import http from "./http-common";
+import http, { Res } from "./http-common";
 
-export interface Res {
-  code: string;
-  message: string;
-  data: any;
+export interface Word {
+  id: number;
+  japanese: string;
+  english: string;
+  chinese: string;
 }
 
-export const findAll = (): Promise<Res> => http.get("/words");
+export const findAll = (): Promise<Res<Word>> => http.get("/words");
 
-export const searchWord = (data: string): Promise<Res> =>
+export const findWord = (id: string | string[]): Promise<Res<Word>> =>
+  http.get("/words/" + id);
+
+export const saveWord = (
+  id: string | string[],
+  input: Word
+): Promise<Res<Word>> => {
+  if (id) {
+    return http.put("/words/" + id, input);
+  } else {
+    return http.post("/words", input);
+  }
+};
+
+export const searchWord = (data: string): Promise<Res<Word>> =>
   http.get("/words?inputWord=" + data);
 
-export const findWord = (id: string): Promise<Res> => http.get("/words/" + id);
-
-export const deleteWord = (id: string): Promise<void> =>
+export const deleteWord = (id: string | string[]): Promise<void> =>
   http.delete("/words/" + id);

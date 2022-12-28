@@ -1,13 +1,22 @@
 import axios, { AxiosInstance } from "axios";
 import storage from "../stores/storage";
 
+export interface Res<T> {
+  code: string;
+  message: string;
+  data: T;
+}
+
 const instance: AxiosInstance = axios.create({
   // API
   baseURL: "http://localhost:3000",
   timeout: 30000,
+  headers: {
+    "Content-type": "application/json;charset=utf-8",
+  },
 });
 
-const errorHandle = (status, other) => {
+const errorHandle = (status: number, other: any) => {
   switch (status) {
     // 401: 未登录状态，跳转登录页
     case 401:

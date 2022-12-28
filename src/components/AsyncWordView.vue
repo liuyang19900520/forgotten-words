@@ -6,8 +6,6 @@
     >
       <p>Wrong Word !</p>
     </div>
-    <div class="bg-white">5</div>
-    <div class="bg-red">4</div>
     <div class="text-white items-center mt-2">
       <var-style-provider :style-vars="radioStyle">
         <var-rate v-model="score" :count="8" />
@@ -22,19 +20,9 @@
     <div class="max-w-screen-md w-full py-4">
       <div class="mx-8 text-white">
         <SelectBar />
-
-        <AsyncWordCardView
-          :language="`▲ English`"
-          :word="mapboxSearchResults.english"
-        />
-        <AsyncWordCardView
-          :language="`◆ 日本語`"
-          :word="mapboxSearchResults.japanese"
-        />
-        <AsyncWordCardView
-          :language="`★ 简体中文`"
-          :word="mapboxSearchResults.chinese"
-        />
+        <AsyncWordCardView :language="`▲ English`" :word="word.english" />
+        <AsyncWordCardView :language="`◆ 日本語`" :word="word.japanese" />
+        <AsyncWordCardView :language="`★ 简体中文`" :word="word.chinese" />
       </div>
     </div>
 
@@ -42,7 +30,7 @@
     <div class="flex flex-row mb-8">
       <div
         class="flex gap-2 text-white cursor-pointer duration-150 hover:text-green-500 mx-12"
-        @click="saveWord"
+        @click="saveBtnWord"
       >
         <i class="fa-solid fa-save"></i>
         <p>Save Word</p>
@@ -50,7 +38,7 @@
 
       <div
         class="flex gap-2 text-white cursor-pointer duration-150 hover:text-red-500 mx-12"
-        @click="removeWord"
+        @click="removeBtnWord"
       >
         <i class="fa-solid fa-trash"></i>
         <p>Delete Word</p>
@@ -62,7 +50,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { findWord, deleteWord, Word } from "../apis/WordsApiService";
+import { findWord, saveWord, deleteWord, Word } from "../apis/WordsApiService";
 import AsyncWordCardView from "./AsyncWordCardView.vue";
 
 const radioCss = {
@@ -71,36 +59,36 @@ const radioCss = {
   "--radio-unchecked-color": "white",
 };
 const radioStyle = ref(radioCss);
-let mapboxSearchResults = reactive({
-  english: "",
-  chinese: "",
-  japanese: "",
+
+let word = reactive({
+  word: null,
 });
 const searchError = ref(false);
 const wordType = ref(0);
 const score = ref(0);
 const route = useRoute();
+const router = useRouter();
 
 if (route.params.id != null) {
   try {
-    let data: Word = await findWord(route.params.id);
-    mapboxSearchResults = data[0];
+    let result = await findWord(route.params.id);
+    word = result.data;
   } catch {
     searchError.value = true;
   }
 }
-const router = useRouter();
 
-const saveWord = () => {};
+const saveBtnWord = () => {
+  try {
+    console.log("saaaa", word);
+    let result = saveWord(route.params.id, word);
+  } catch {}
+};
 
-const removeWord = () => {
+const removeBtnWord = () => {
   deleteWord(route.params.id);
   router.push({
     name: "home",
   });
 };
 </script>
-<style scoped>
-:root {
-}
-</style>

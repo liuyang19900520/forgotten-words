@@ -1,7 +1,8 @@
 <template>
   <div class="flex flex-col min-h-screen font-Roboto bg-primary">
-    <SiteNavigation />
-    <RouterView />
+    <!-- <SiteNavigation />
+    <RouterView /> -->
+    {{ app.getConfig("baseUrl") }}
   </div>
 </template>
 

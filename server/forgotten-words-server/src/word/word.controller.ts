@@ -20,7 +20,6 @@ export class WordController {
   @Get()
   async findAll() {
     let promise = await this.wordService.findAll();
-    this.logger.log(promise);
     return promise;
   }
 
@@ -31,6 +30,7 @@ export class WordController {
 
   @Put(":id")
   update(@Param("id") id: string, @Body() updateWordDto: UpdateWordDto) {
+    this.logger.error(updateWordDto);
     return this.wordService.update(+id, updateWordDto);
   }
 
