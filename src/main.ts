@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "@/App.vue";
 import { initApp } from "./config/init";
 import router from "./routers";
 import "./assets/css/tailwind.css";
@@ -34,6 +34,7 @@ import "./assets/css/tailwind.css";
   // = 向根组件绑定全局对象
   uiApp.config.globalProperties.app = window.app;
   uiApp.config.globalProperties.Tools = window.Tools;
+
   //uiApp.config.globalProperties.lpk = window.lpk
 
   // =========================================================================

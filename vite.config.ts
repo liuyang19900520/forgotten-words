@@ -6,7 +6,7 @@ import autoImport from "unplugin-auto-import/vite";
 
 import autoprefixer from "autoprefixer";
 import postCssPxToRem from "postcss-pxtorem";
-import { resolve } from "path";
+import path from "path";
 
 // Vant按需加载
 import Components from "unplugin-vue-components/vite";
@@ -27,11 +27,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "src"),
     },
     extensions: [".js", ".ts", ".jsx", ".tsx", ".json", ".vue", ".mjs"],
   },
-  // vite 中使用 less/scss/sass/stylus 等 css 预处理器, 直接进行安装，不用像 webpack 那样安装 loader 和配置
   css: {
     preprocessorOptions: {
       scss: {

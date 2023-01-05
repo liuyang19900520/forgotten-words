@@ -1,6 +1,6 @@
-import { IApp } from "@/config/app";
-import { ITools } from "@/utils/Tools";
-import { IFnLpk } from "@/config/lpk";
+import { IApp } from "../config/app";
+import { ITools } from "../utils/Tools";
+import { IFnLpk } from "../config/lpk";
 import Icon from "@/components/Icon";
 import type { IAjax, IResponse } from "@/utils/Request";
 
