@@ -1,6 +1,7 @@
-import type {RouteRecordRaw} from "vue-router";
-import sysCfg, {ISysCfg, ISysCfgBModItem} from "./syscfg";
-import {isArray} from "lodash";
+import type { RouteRecordRaw } from "vue-router";
+import sysCfg, { ISysCfg, ISysCfgBModItem } from "./syscfg";
+import appCtl from "@/controller/AppCtl";
+import { isArray } from "lodash";
 
 // =============================================================================
 // = 存放所有业务模块对应的路由信息
@@ -54,9 +55,9 @@ const app = {
     return false;
   },
   //! 基础平台控制器相关操作
-  //   getAppCtl() {
-  //     return appCtl;
-  //   },
+  getAppCtl() {
+    return appCtl;
+  },
 };
 
 export type IApp = typeof app;

@@ -1,6 +1,7 @@
 import app from "./app";
 import Tools from "@/utils/Tools";
-import {initLpk, lpk} from "@/config/lpk";
+import { initLpk, lpk } from "@/config/lpk";
+import { initLoginUserInfo } from "@/controller/AppCtl";
 
 // =============================================================================
 // = 绑定全局变量
@@ -18,7 +19,7 @@ type IGlobalVars = {
 const iGlobalVars: IGlobalVars = {
   app,
   Tools,
-  lpk// 全局应用对象, 挂载一些全局数据与操作方法
+  lpk, // 全局应用对象, 挂载一些全局数据与操作方法
 };
 
 Object.keys(iGlobalVars).forEach((stKey) => {
@@ -31,7 +32,7 @@ Object.keys(iGlobalVars).forEach((stKey) => {
 export const initApp = async () => {
   // -------------------------------------------------------------------------
   // - 初始化基础业务相关的信息(比如: 获取当前登录者信息等)
-  //await initLoginUserInfo();
+  initLoginUserInfo();
   // -------------------------------------------------------------------------
   // - 设置系统主题样式
   //initTheme();
@@ -43,11 +44,16 @@ export const initApp = async () => {
   initLpk();
   // -------------------------------------------------------------------------
   // - 初始化各业务模块
-  // const iAllEntry: GlobalType.IRecord = import.meta.glob('@/bmod/*/entry.ts', {eager: true})
-  // for (const path  in iAllEntry){
-  //     const iEntryFile = iAllEntry[path]
-  //     iEntryFile && iEntryFile.entryInit && await iEntryFile.entryInit()
-  // }
+  const iAllEntry: GlobalType.IRecord = import.meta.glob(
+    "@/modules/*/entry.ts",
+    {
+      eager: true,
+    }
+  );
+  for (const path in iAllEntry) {
+    const iEntryFile = iAllEntry[path];
+    iEntryFile && iEntryFile.entryInit && (await iEntryFile.entryInit());
+  }
 };
 
 // =============================================================================
