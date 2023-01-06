@@ -1,24 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import WordView from "../views/WordView.vue";
+import wordBookView from "@/views/WordBookView.vue";
+import MyPageView from "@/views/MyPageView.vue";
+import TranslatorView from "@/views/TranslatorView.vue";
+import LayoutViewVue from "@/views/LayoutView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeView,
+      name: "layoutView",
+      redirect: "/wordBook",
     },
     {
-      path: "/words/",
-      name: "wordViewInsert",
-      component: WordView,
+      path: "/wordBook",
+      name: "wordBook",
+      component: wordBookView,
     },
     {
-      path: "/words/:id",
-      name: "wordView",
-      component: WordView,
+      path: "/translator",
+      name: "translator",
+      component: TranslatorView,
+    },
+    {
+      path: "/myPage",
+      name: "myPage",
+      component: MyPageView,
     },
   ],
 });

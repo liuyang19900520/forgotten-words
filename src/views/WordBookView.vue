@@ -1,13 +1,5 @@
-<template>
-$END$
-</template>
+<template>单词本</template>
 
-<script>
-export default {
-name: "WordBookView"
-}
-</script>
+<script lang="ts" setup></script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

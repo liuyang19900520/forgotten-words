@@ -34,8 +34,7 @@ import "./assets/css/tailwind.css";
   // = 向根组件绑定全局对象
   uiApp.config.globalProperties.app = window.app;
   uiApp.config.globalProperties.Tools = window.Tools;
-
-  //uiApp.config.globalProperties.lpk = window.lpk
+  uiApp.config.globalProperties.lpk = window.lpk;
 
   // =========================================================================
   // = 初始化状态管理与路由, 并渲染根组件
@@ -44,5 +43,6 @@ import "./assets/css/tailwind.css";
   // = 3.对路由守卫进行处理
   // = 4.keep-alive的使用
   //initRouter()
+  uiApp.use(router);
   uiApp.mount("#app");
 })();

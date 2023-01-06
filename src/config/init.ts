@@ -1,5 +1,6 @@
 import app from "./app";
 import Tools from "@/utils/Tools";
+import {initLpk, lpk} from "@/config/lpk";
 
 // =============================================================================
 // = 绑定全局变量
@@ -16,7 +17,8 @@ type IGlobalVars = {
 // 其它几个全局模块也类似。这样也有一个好处不用在乎各变量所在文件的引入顺序
 const iGlobalVars: IGlobalVars = {
   app,
-  Tools, // 全局应用对象, 挂载一些全局数据与操作方法
+  Tools,
+  lpk// 全局应用对象, 挂载一些全局数据与操作方法
 };
 
 Object.keys(iGlobalVars).forEach((stKey) => {
@@ -37,7 +39,8 @@ export const initApp = async () => {
   // - 加载基础平台的语言包
   // import.meta.glob 不支持以变量方式加载数据,
   // 因此只有全都加载, 然后再过滤不需要的语言包内容
-  //initLpk();
+
+  initLpk();
   // -------------------------------------------------------------------------
   // - 初始化各业务模块
   // const iAllEntry: GlobalType.IRecord = import.meta.glob('@/bmod/*/entry.ts', {eager: true})

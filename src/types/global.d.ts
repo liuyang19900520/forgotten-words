@@ -1,8 +1,8 @@
-import { IApp } from "../config/app";
-import { ITools } from "../utils/Tools";
-import { IFnLpk } from "../config/lpk";
+import {IApp} from "../config/app";
+import {ITools} from "../utils/Tools";
+import {IFnLpk} from "../config/lpk";
 import Icon from "@/components/Icon";
-import type { IAjax, IResponse } from "@/utils/Request";
+import type {IAjax, IResponse} from "@/utils/Request";
 
 declare global {
   declare namespace GlobalType {
@@ -13,10 +13,15 @@ declare global {
   declare namespace BaseAPIType {
     interface IMethods<T> {
       get(params: GlobalType.IRecord): Promise<T>;
+
       list(params: GlobalType.IRecord): Promise<IListResult<T>>;
+
       post(params: GlobalType.IRecord): Promise<IResponse>;
+
       put(params: GlobalType.IRecord): Promise<IResponse>;
+
       patch(params: GlobalType.IRecord): Promise<IResponse>;
+
       delete(params: GlobalType.IRecord): Promise<IResponse>;
     }
 

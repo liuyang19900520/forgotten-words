@@ -19,6 +19,8 @@ declare module '@vue/runtime-core' {
     SelectBar: typeof import('./../components/SelectBar.vue')['default']
     SelectItem: typeof import('./../components/select/select-item.vue')['default']
     SiteNavigation: typeof import('./../components/SiteNavigation.vue')['default']
+    VanTabbar: typeof import('vant/es')['Tabbar']
+    VanTabbarItem: typeof import('vant/es')['TabbarItem']
     WordCard: typeof import('./../components/WordCard.vue')['default']
     WordCardSkeleton: typeof import('./../components/WordCardSkeleton.vue')['default']
     WordList: typeof import('./../components/WordList.vue')['default']

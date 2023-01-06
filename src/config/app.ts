@@ -1,7 +1,6 @@
-import type { RouteRecordRaw } from "vue-router";
-import sysCfg, { ISysCfg, ISysCfgBModItem } from "./syscfg";
-//mport appCtl from '@/controller/AppCtl'
-import { isArray } from "lodash";
+import type {RouteRecordRaw} from "vue-router";
+import sysCfg, {ISysCfg, ISysCfgBModItem} from "./syscfg";
+import {isArray} from "lodash";
 
 // =============================================================================
 // = 存放所有业务模块对应的路由信息
@@ -9,8 +8,10 @@ let giAllBModRoutes: RouteRecordRaw[] = [];
 
 interface IBModRouterOper {
   registBModRoute(mixRoute: RouteRecordRaw[] | RouteRecordRaw): void;
+
   getAllBModRoutes(): RouteRecordRaw[];
 }
+
 const routeBModRouterOper: IBModRouterOper = {
   //! 注册业务模块对应的路由信息
   registBModRoute(mixRoute) {

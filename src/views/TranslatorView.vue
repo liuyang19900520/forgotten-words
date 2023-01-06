@@ -1,13 +1,5 @@
-<template>
-  翻译
-</template>
+<template>翻译</template>
 
-<script>
-export default {
-  name: "TranslatorView"
-}
-</script>
+<script lang="ts" setup></script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
