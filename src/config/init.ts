@@ -1,4 +1,5 @@
 import app from "./app";
+import { App } from "vue";
 import Tools from "@/utils/Tools";
 import { initLpk, lpk } from "@/config/lpk";
 import { initLoginUserInfo } from "@/controller/AppCtl";
@@ -57,15 +58,17 @@ export const initApp = async () => {
 };
 
 // =============================================================================
-// = 注册全局组件
-// export const initGlobalComponents = (uiApp: App<Element>) => {
-//   const iAllGlobalComponents: GlobalType.IRecord = import.meta.glob(
-//     "@/components/*/src/*.vue",
-//     { eager: true }
-//   );
-//   Object.keys(iAllGlobalComponents).map((path: string) => {
-//     const paths = path.split("/");
-//     const stCmpName = paths[paths.length - 3];
-//     uiApp.component(stCmpName, iAllGlobalComponents[path].default);
-//   });
-// };
+//= 注册全局组件
+export const initGlobalComponents = (uiApp: App<Element>) => {
+  const iAllGlobalComponents: GlobalType.IRecord = import.meta.glob(
+    "@/components/*/src/*.vue",
+    { eager: true }
+  );
+  Object.keys(iAllGlobalComponents).map((path: string) => {
+    const paths = path.split("/");
+    const stCmpName = paths[paths.length - 3];
+    console.log(iAllGlobalComponents[path].default);
+
+    uiApp.component(stCmpName, iAllGlobalComponents[path].default);
+  });
+};
