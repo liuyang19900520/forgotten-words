@@ -1,7 +1,13 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <layout-view></layout-view>
+  <div>
+    <!-- <div class="title">App.vue</div> -->
+    <router-view/>
+  </div>
 </template>
 
-<script setup lang="ts">
-import LayoutView from "@/views/LayoutView.vue";
-</script>
+<style lang="scss" scoped>
+
+</style>

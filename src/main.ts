@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "@/App.vue";
 import { initApp, initGlobalComponents } from "./config/init";
-import router from "./routers";
+import { initRouter } from "./routers/index";
 import "./assets/css/tailwind.css";
 
 (async () => {
@@ -42,7 +42,6 @@ import "./assets/css/tailwind.css";
   // = 2.初始化各业务模块的路由配置
   // = 3.对路由守卫进行处理
   // = 4.keep-alive的使用
-  //initRouter()
-  uiApp.use(router);
-  uiApp.mount("#app");
+
+  uiApp.use(initRouter()).mount("#app");
 })();
