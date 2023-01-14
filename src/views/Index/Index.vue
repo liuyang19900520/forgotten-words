@@ -46,9 +46,9 @@
           lpk("page.index.Title")
         }}</router-link>
       </li>
-<!--      <li>-->
-<!--        <router-link :to="{ name: 'blogIndex' }">{{ lpk("Blog") }}</router-link>-->
-<!--      </li>-->
+      <li>
+        <router-link :to="{ name: 'translator' }">{{ lpk("translator.index") }}</router-link>
+      </li>
       <li>
         <router-link :to="{ name: 'my' }">{{
           lpk("page.my.Title")

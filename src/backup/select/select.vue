@@ -65,7 +65,6 @@ export default {
 
     const getMaxLength = () => {
       let items = ctx.slots.selectDropDown();
-      console.log(items);
       let maxLength = 0;
       if (items) {
         items.forEach(function (element) {

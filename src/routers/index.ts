@@ -81,6 +81,7 @@ export const initRouter: () => Router = () => {
   });
   giAllRoutes = routes;
 
+  console.log(routes)
   // =========================================================================
   // = 收集所有"宿主RouterView"对应的各业务模块注册的"属于子路由"
   gatherBelongToRoute();
@@ -130,10 +131,10 @@ export const initRouter: () => Router = () => {
   //   next();
   // });
   //
-  // iRouter.afterEach((to, from) => {
-  //   const title = get(to, "meta.title", "");
-  //   title && (document.title = title);
-  // });
+  iRouter.afterEach((to, from) => {
+    const title = get(to, "meta.title", "");
+    title && (document.title = title);
+  });
 
   return iRouter;
 };

@@ -17,7 +17,6 @@ try {
   const result = await findAll();
   if (result.code == "0") {
     savedWords.value = result.data;
-    console.log(result);
   }
 } catch {
   console.error("");

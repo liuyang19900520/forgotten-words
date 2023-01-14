@@ -43,17 +43,12 @@ export const initApp = async () => {
   // 因此只有全都加载, 然后再过滤不需要的语言包内容
 
   initLpk();
-  // -------------------------------------------------------------------------
   // - 初始化各业务模块
-  const iAllEntry: GlobalType.IRecord = import.meta.glob(
-    "@/modules/*/entry.ts",
-    {
-      eager: true,
-    }
-  );
-  for (const path in iAllEntry) {
-    const iEntryFile = iAllEntry[path];
-    iEntryFile && iEntryFile.entryInit && (await iEntryFile.entryInit());
+  const iAllEntry: GlobalType.IRecord = import.meta.glob('@/modules/*/entry.ts', {eager: true})
+
+  for (const path  in iAllEntry){
+    const iEntryFile = iAllEntry[path]
+    iEntryFile && iEntryFile.entryInit && await iEntryFile.entryInit()
   }
 };
 
@@ -67,7 +62,6 @@ export const initGlobalComponents = (uiApp: App<Element>) => {
   Object.keys(iAllGlobalComponents).map((path: string) => {
     const paths = path.split("/");
     const stCmpName = paths[paths.length - 3];
-    console.log(iAllGlobalComponents[path].default);
 
     uiApp.component(stCmpName, iAllGlobalComponents[path].default);
   });

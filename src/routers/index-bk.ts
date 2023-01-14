@@ -10,11 +10,11 @@ const router = createRouter({
     {
       path: "/",
       name: "layoutView",
-      redirect: "/wordBook",
+      redirect: "/translator",
     },
     {
-      path: "/wordBook",
-      name: "wordBook",
+      path: "/translator",
+      name: "translator",
       component: wordBookView,
     },
     {
