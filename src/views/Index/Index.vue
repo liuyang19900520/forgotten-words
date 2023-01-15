@@ -38,8 +38,8 @@
   <div class="index-w">
     <div class="title">Index.vue</div>
 
-<!--    <keep-alive-router-view />-->
-    <router-view></router-view>
+   <keep-alive-router-view />
+<!--    <router-view></router-view>-->
     <ul class="g-flex-rsbc">
       <li>
         <router-link :to="{ name: 'home' }">{{

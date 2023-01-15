@@ -1,25 +1,11 @@
-/*! @file
-********************************************************************************
-<PRE>
-文件实现功能   : 基础模块的路由配置
-作者           : dotdancer
-版本           : 1.0
---------------------------------------------------------------------------------
-备注           : -
---------------------------------------------------------------------------------
-修改记录 :
-日  期       版本    修改人     修改内容
-2022/08/25   1.0     dotdancer  创建
-</PRE>
-*******************************************************************************/
-import { get } from "lodash";
+import {get} from "lodash";
 import {
   createRouter,
   createWebHistory,
   Router,
   RouteRecordRaw,
 } from "vue-router";
-import { ROUTER_VIEW_KEY, LOGIN_PATH } from "@/utils/Constants";
+import {ROUTER_VIEW_KEY, LOGIN_PATH} from "@/utils/Constants";
 import Index from "@/views/Index/Index.vue";
 
 type RouteRecordRawExt = RouteRecordRaw & { children?: RouteRecordRawExt[] };
@@ -27,7 +13,7 @@ let giAllRoutes: RouteRecordRawExt[] = [];
 
 export const initRouter: () => Router = () => {
   let routes: RouteRecordRawExt[] = [
-    { path: "/", redirect: "/index" },
+    {path: "/", redirect: "/index"},
     {
       path: "/index",
       name: "index",
@@ -52,23 +38,24 @@ export const initRouter: () => Router = () => {
           component: () => import("@/views/My/My.vue"),
           meta: {
             title: lpk("page.my.Title"),
-            keepAlive: false,
+            requireAuth: true,
+            keepAlive: true,
           },
         },
       ],
     },
-    // {
-    //   path: LOGIN_PATH,
-    //   name: "login",
-    //   component: () => import("@/views/Login/Login.vue"),
-    //   meta: { title: lpk("page.login.Title"), requireAuth: false },
-    // },
-    // {
-    //   path: "/regist",
-    //   name: "regist",
-    //   component: () => import("@/views/Login/Regist.vue"),
-    //   meta: { title: lpk("page.regist.Title"), requireAuth: false },
-    // },
+    {
+      path: LOGIN_PATH,
+      name: "login",
+      component: () => import("@/views/Login/Login.vue"),
+      meta: { title: lpk("page.login.Title"), requireAuth: false },
+    },
+    {
+      path: "/regist",
+      name: "regist",
+      component: () => import("@/views/Login/Regist.vue"),
+      meta: { title: lpk("page.regist.Title"), requireAuth: false },
+    },
   ];
 
   // =========================================================================
@@ -80,8 +67,6 @@ export const initRouter: () => Router = () => {
     component: () => import("@/views/NotFound.vue"),
   });
   giAllRoutes = routes;
-
-  console.log(routes)
   // =========================================================================
   // = 收集所有"宿主RouterView"对应的各业务模块注册的"属于子路由"
   gatherBelongToRoute();
@@ -106,31 +91,31 @@ export const initRouter: () => Router = () => {
     routes,
   });
 
-  // iRouter.beforeEach((to, from, next) => {
-  //   const stLoginUserId = get(app.getAppCtl().getLoginUser(), "id", "");
-  //   if (
-  //     !stLoginUserId &&
-  //     to.matched.some(
-  //       (record) => false !== get(record, "meta.requireAuth", false)
-  //     )
-  //   ) {
-  //     next({
-  //       path: LOGIN_PATH,
-  //       query: { redirect: to.fullPath },
-  //     });
-  //
-  //     return;
-  //   }
-  //
-  //   // 已登录, 进入登录界面时, 直接返回到主页
-  //   if (stLoginUserId && to.path == LOGIN_PATH) {
-  //     next("/");
-  //     return;
-  //   }
-  //
-  //   next();
-  // });
-  //
+  iRouter.beforeEach((to, from, next) => {
+    const stLoginUserId = get(app.getAppCtl().getLoginUser(), "id", "");
+    if (
+      !stLoginUserId &&
+      to.matched.some(
+        (record) => false !== get(record, "meta.requireAuth", false)
+      )
+    ) {
+      next({
+        path: LOGIN_PATH,
+        query: { redirect: to.fullPath },
+      });
+
+      return;
+    }
+
+    // 已登录, 进入登录界面时, 直接返回到主页
+    if (stLoginUserId && to.path == LOGIN_PATH) {
+      next("/");
+      return;
+    }
+
+    next();
+  });
+
   iRouter.afterEach((to, from) => {
     const title = get(to, "meta.title", "");
     title && (document.title = title);
@@ -147,7 +132,7 @@ const gatherBelongToRoute = () => {
       return;
     }
 
-    for (let i = 0; i < giRoutes.length; ) {
+    for (let i = 0; i < giRoutes.length;) {
       const iFindItem = giRoutes[i];
       // 宿主路由为将要查找路由数组中的一员, 则停止查找
       if (hostRoute == iFindItem) {

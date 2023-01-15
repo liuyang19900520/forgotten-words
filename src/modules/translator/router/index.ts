@@ -18,7 +18,6 @@ import syscfg from '../config/syscfg'
 
 export const initRoutes = () => {
   const stPath = `/${syscfg.module}`
-  console.log("bbbbb",stPath)
 
   // -------------------------------------------------------------------------
   // - 定义当前模块对应的路由信息
