@@ -35,6 +35,7 @@ import "./assets/css/tailwind.css";
   uiApp.config.globalProperties.app = window.app;
   uiApp.config.globalProperties.Tools = window.Tools;
   uiApp.config.globalProperties.lpk = window.lpk;
+  uiApp.config.globalProperties.Ajax = window.Ajax;
 
   // =========================================================================
   // = 初始化状态管理与路由, 并渲染根组件

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class SystemException extends HttpException {
   private readonly errorMessage: string;
@@ -6,7 +6,7 @@ export class SystemException extends HttpException {
 
   constructor(errorMessage: string, errorCode?: string, statusCode?: HttpStatus) {
     if (!errorCode) {
-      errorCode = "-1";
+      errorCode = '-1';
     }
     if (!statusCode) {
       statusCode = HttpStatus.INTERNAL_SERVER_ERROR;

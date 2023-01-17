@@ -3,6 +3,8 @@ import { App } from "vue";
 import Tools from "@/utils/Tools";
 import { initLpk, lpk } from "@/config/lpk";
 import { initLoginUserInfo } from "@/controller/AppCtl";
+import Ajax from '@/utils/Request'
+
 
 // =============================================================================
 // = 绑定全局变量
@@ -21,6 +23,7 @@ const iGlobalVars: IGlobalVars = {
   app,
   Tools,
   lpk, // 全局应用对象, 挂载一些全局数据与操作方法
+  Ajax,
 };
 
 Object.keys(iGlobalVars).forEach((stKey) => {
