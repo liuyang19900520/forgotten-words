@@ -74,7 +74,7 @@ export default {
             return Ajax.get<T>({
               ...transferUrlAndParams('list', get(initParams, `uri.${method}`), params)
             }).then(res => {
-              const {total, items = []} = res.data as BaseAPIType.IListResult<T>
+              const { total, items = []} = res.data as BaseAPIType.IListResult<T>
               iResult.total = total
               iResult.items = items.map(item => {
                 return initParams.mapper ? initParams.mapper(item) : item as T

@@ -41,7 +41,7 @@ declare global {
       [key: string]: IURIItem;
     }
 
-    interface IInitParams<T = IRecord> {
+    interface  IInitParams<T = IRecord> {
       mapper?: (item: IRecord) => T;
       uri: IURI;
     }
