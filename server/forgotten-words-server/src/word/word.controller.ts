@@ -3,6 +3,8 @@ import { WordService } from "./word.service";
 import { CreateWordDto } from "./dto/create-word.dto";
 import { UpdateWordDto } from "./dto/update-word.dto";
 import e from "express";
+import { log } from "winston";
+import { SystemException } from "../common/exception/system.exception";
 
 @Controller("words")
 export class WordController {
@@ -24,7 +26,11 @@ export class WordController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  async findOne(@Param("id") id: string) {
+    let wordPromise = await this.wordService.findOne(+id);
+    if(wordPromise){
+      throw new SystemException("000","test error");
+    }
     return this.wordService.findOne(+id);
   }
 

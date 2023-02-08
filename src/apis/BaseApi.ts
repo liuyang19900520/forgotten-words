@@ -1,17 +1,3 @@
-/*! @file
-********************************************************************************
-<PRE>
-文件实现功能   : 基础API的实现
-作者           : dotdancer
-版本           : 1.0
---------------------------------------------------------------------------------
-备注           : -
---------------------------------------------------------------------------------
-修改记录 :
-日  期       版本    修改人     修改内容
-2022/09/28   1.0     dotdancer  创建
-</PRE>
-*******************************************************************************/
 import {get} from 'lodash'
 import {IResponse} from '@/utils/Request'
 import {APIMethods} from '@/utils/Constants'
@@ -34,7 +20,6 @@ const transferUrlAndParams: IFnUrlAndParamsTransfer = (type, uriItem, params = {
     const stIdName = 'id'
     url = url.replace(`:${stIdName}`, get(params, stIdName))
   }
-
   uriItem.fnUrlTransfer && (url = uriItem.fnUrlTransfer(url, params))
   uriItem.fnParamsTransfer && (params = uriItem.fnParamsTransfer(url, params))
 
@@ -74,7 +59,8 @@ export default {
             return Ajax.get<T>({
               ...transferUrlAndParams('list', get(initParams, `uri.${method}`), params)
             }).then(res => {
-              const { total, items = []} = res.data as BaseAPIType.IListResult<T>
+              console.log(res)
+              const {total, items = []} = res.data as BaseAPIType.IListResult<T>
               iResult.total = total
               iResult.items = items.map(item => {
                 return initParams.mapper ? initParams.mapper(item) : item as T

@@ -16,7 +16,7 @@ export class TransformInterceptor<T>
     return next.handle().pipe(map(data => ({
       data,
       code: "0",
-      msg: "request success"
+      message: "request success"
     })));
   }
 }

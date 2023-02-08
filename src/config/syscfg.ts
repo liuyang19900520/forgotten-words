@@ -9,7 +9,7 @@ export interface ISysCfg {
 }
 
 const iSysCfg: ISysCfg = {
-  baseUrl: "http://127.0.0.1:4000", // 'http://192.168.0.102:8080',
+  baseUrl: "http://127.0.0.1:3000", // 'http://192.168.0.102:8080',
   bmodNames: [
     {
       name: "translator",
