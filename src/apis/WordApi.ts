@@ -24,11 +24,5 @@ const initBaseAPIParams: BaseAPIType.IInitParams = {
 
 export default {
   ...mdlBaseApi.initApi<IWord, Pick<BaseAPIType.IMethods<IWord>, APIMethods.GET | APIMethods.LIST | APIMethods.POST>>(initBaseAPIParams),
-  findAll(): Promise<IWord> {
-    return Promise.resolve({
-      id: 1,
-      name: 'zs'
-    })
-  }
 }
 

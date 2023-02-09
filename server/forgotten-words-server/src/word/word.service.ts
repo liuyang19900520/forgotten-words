@@ -4,6 +4,7 @@ import { UpdateWordDto } from "./dto/update-word.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Word } from "./entities/word.entity";
 import { Repository } from "typeorm";
+import { skip, take } from "rxjs/operators";
 
 @Injectable()
 export class WordService {
@@ -25,8 +26,17 @@ export class WordService {
     });
   }
 
-  async findAll() {
-    return await this.repository.find();
+  async findAll(pageNo: number, pageSize: number) {
+    const [result, total] = await this.repository.findAndCount(
+      {
+        take: pageSize,
+        skip: (pageNo - 1) * pageSize
+      }
+    );
+    return {
+      items: result,
+      total: total
+    };
   }
 
   async findOne(id: number) {

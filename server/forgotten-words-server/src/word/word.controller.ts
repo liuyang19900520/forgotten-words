@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query } from "@nestjs/common";
 import { WordService } from "./word.service";
 import { CreateWordDto } from "./dto/create-word.dto";
 import { UpdateWordDto } from "./dto/update-word.dto";
@@ -20,16 +20,16 @@ export class WordController {
   }
 
   @Get()
-  async findAll() {
-    let promise = await this.wordService.findAll();
+  async findAll(@Query("pageNo") pageNo, @Query("pageSize") pageSize) {
+    let promise = await this.wordService.findAll(pageNo, pageSize);
     return promise;
   }
 
   @Get(":id")
   async findOne(@Param("id") id: string) {
     let wordPromise = await this.wordService.findOne(+id);
-    if(wordPromise){
-      throw new SystemException("000","test error");
+    if (wordPromise) {
+      throw new SystemException("000", "test error");
     }
     return this.wordService.findOne(+id);
   }

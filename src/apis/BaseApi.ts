@@ -55,7 +55,6 @@ export default {
               total: 0,
               items: [],
             }
-
             return Ajax.get<T>({
               ...transferUrlAndParams('list', get(initParams, `uri.${method}`), params)
             }).then(res => {
@@ -65,7 +64,6 @@ export default {
               iResult.items = items.map(item => {
                 return initParams.mapper ? initParams.mapper(item) : item as T
               })
-
               return iResult
             }).catch((e) => {
               Tools.processApiError(get(initParams, `uri.${method}.errMsg`, ''), e)
