@@ -3,7 +3,6 @@
 
 <template>
   <div>
-    <!-- <div class="title">App.vue</div> -->
     <router-view/>
   </div>
 </template>
