@@ -13,15 +13,15 @@
 </PRE>
 *******************************************************************************/
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 import qs from 'qs'
-import { get } from 'lodash'
+import {get} from 'lodash'
 import app from '@/config/app'
-import { LOGIN_TOKEN, APIMethods } from './Constants';
+import {LOGIN_TOKEN, APIMethods} from './Constants';
 
 // =============================================================================
 // = 定义 或 扩展axios的类型
-export interface AxiosRequestConfigExt extends AxiosRequestConfig{
+export interface AxiosRequestConfigExt extends AxiosRequestConfig {
   reqParams?: AxiosRequestConfigExt,      // 请求参数
   showLoading?: boolean;                  // 是否显示loading提示
   bIsNeedCachePrevent?: boolean;          // 是否加上防缓存的cp随机数
@@ -30,7 +30,7 @@ export interface AxiosRequestConfigExt extends AxiosRequestConfig{
   force401ToLogin?: boolean;              // 遇401是否强制跳转到登录界面
 }
 
-export interface IResponse<T = any>{
+export interface IResponse<T = any> {
   code: number;
   data: T;
   msg: string;
@@ -59,18 +59,18 @@ axiosInstance.interceptors.response.use((res: AxiosResponse<IResponse>) => {
 
   // -------------------------------------------------------------------------
   // - 获取响应内容, 以及外界调用请求时传递的参数值
-  const { status, data, config } = res
-  const { reqParams = {} } = config as AxiosRequestConfigExt
-  const { force401ToLogin = false} = reqParams
+  const {status, data, config} = res
+  const {reqParams = {}} = config as AxiosRequestConfigExt
+  const {force401ToLogin = false} = reqParams
 
   // -------------------------------------------------------------------------
   // - http: 200状态码情况处理
-  if (200 == status){
-    if (data){
-      if (401 == data.code && force401ToLogin){
+  if (200 == status) {
+    if (data) {
+      if (401 == data.code && force401ToLogin) {
         app.getAppCtl().redirectToLogin()
         return
-      } else if ((data.code >= 400 && data.code <= 404) || 500 == data.code){
+      } else if ((data.code >= 400 && data.code <= 404) || 500 == data.code) {
         return Promise.reject(data)
       }
     }
@@ -92,7 +92,7 @@ axiosInstance.interceptors.response.use((res: AxiosResponse<IResponse>) => {
 
   // -------------------------------------------------------------------------
   // - 翻译错误解释
-  let { message = 'Request Error', response } = error
+  let {message = 'Request Error', response} = error
   const stErrMsg = get(response, 'data.msg', message)
   return Promise.reject({msg: stErrMsg})
 })
@@ -104,12 +104,12 @@ type IFnAjaxMethodHandler = <T = any>(reqParams: AxiosRequestConfigExt) => Promi
 
 // =============================================================================
 // = 绑定多种请求类型的方法
-const iAllMethods: {[key in IAjaxMethod]: IFnAjaxMethodHandler} = {} as any
-const gstMethods: string[] = [APIMethods.GET,  APIMethods.POST,  APIMethods.PUT,  APIMethods.PATCH,  APIMethods.DELETE].map(method => method.toUpperCase())
+const iAllMethods: { [key in IAjaxMethod]: IFnAjaxMethodHandler } = {} as any
+const gstMethods: string[] = [APIMethods.GET, APIMethods.POST, APIMethods.PUT, APIMethods.PATCH, APIMethods.DELETE].map(method => method.toUpperCase())
 gstMethods.map(method => {
   const fnHandler: IFnAjaxMethodHandler = <T = any>(reqParams: AxiosRequestConfigExt | string): Promise<IResponse<T>> => {
-    if (APIMethods.GET == method){
-      if ('string' === typeof reqParams){
+    if (APIMethods.GET == method) {
+      if ('string' === typeof reqParams) {
         reqParams = {
           url: reqParams,
           params: '',
@@ -126,7 +126,7 @@ gstMethods.map(method => {
 
 const Ajax = {
   ...iAllMethods,
-  request<T = any>(method: string, reqParams: AxiosRequestConfigExt): Promise<IResponse<T>>{
+  request<T = any>(method: string, reqParams: AxiosRequestConfigExt): Promise<IResponse<T>> {
     // ---------------------------------------------------------------------
     // - 获取请求参数
     let {
@@ -142,7 +142,7 @@ const Ajax = {
 
     // ---------------------------------------------------------------------
     // - 判断是否需要显示loading
-    if (false !== showLoading){
+    if (false !== showLoading) {
       clearTimeout(timerLoading)
       timerLoading = setTimeout(() => {
         Tools.showLoadMask()
@@ -172,10 +172,12 @@ const Ajax = {
       reqParams: reqParams,
       url,
       method: (gstMethods.indexOf(method) > -1 ? method : 'GET'),
-      [method === APIMethods.GET ? 'params' : 'data']: params,
+      params: params,
+      data: params,
       headers: Object.assign({}, headers),
     }
     timeout && (iSendReqParams.timeout = timeout)
+    console.log("kkkkk", iSendReqParams.data)
 
     // ---------------------------------------------------------------------
     // - 发起请求

@@ -22,7 +22,8 @@ const transferUrlAndParams: IFnUrlAndParamsTransfer = (type, uriItem, params = {
   }
   uriItem.fnUrlTransfer && (url = uriItem.fnUrlTransfer(url, params))
   uriItem.fnParamsTransfer && (params = uriItem.fnParamsTransfer(url, params))
-
+  console.log(url)
+  console.log(params)
   return {
     url,
     params,

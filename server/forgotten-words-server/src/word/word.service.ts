@@ -3,7 +3,7 @@ import { CreateWordDto } from "./dto/create-word.dto";
 import { UpdateWordDto } from "./dto/update-word.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Word } from "./entities/word.entity";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { skip, take } from "rxjs/operators";
 
 @Injectable()
@@ -26,9 +26,12 @@ export class WordService {
     });
   }
 
-  async findAll(pageNo: number, pageSize: number) {
+  async findAll(pageNo: number, pageSize: number, keyword: string) {
     const [result, total] = await this.repository.findAndCount(
       {
+        where: {
+          english: Like(keyword + "%")
+        },
         take: pageSize,
         skip: (pageNo - 1) * pageSize
       }

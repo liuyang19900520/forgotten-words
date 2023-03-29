@@ -20,8 +20,11 @@ export class WordController {
   }
 
   @Get()
-  async findAll(@Query("pageNo") pageNo, @Query("pageSize") pageSize) {
-    let promise = await this.wordService.findAll(pageNo, pageSize);
+  async findAll(@Query("pageNo") pageNo, @Query("pageSize") pageSize, @Query("keyword") keyword) {
+    console.log(keyword);
+    let promise = await this.wordService.findAll(pageNo, pageSize, keyword);
+    console.log(promise.items);
+
     return promise;
   }
 

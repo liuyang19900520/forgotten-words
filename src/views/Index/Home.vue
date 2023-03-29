@@ -73,10 +73,10 @@ export default defineComponent({
     const onCancel = () => showToast('取消');
     const onSearch = async (value: string) => {
       if (value) {
+        list.value = [];
         loading.value = true;
-
         showToast(value);
-        const resultWords = await mdlWordApi.list({pageNo: 1, PageSize: 2});
+        const resultWords = await mdlWordApi.list({pageNo: 1, PageSize: 2, keyword: value});
         list.value.push(...resultWords.items);
         loading.value = false;
         finished.value = true;
