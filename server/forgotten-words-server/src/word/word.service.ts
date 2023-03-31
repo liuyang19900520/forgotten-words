@@ -36,6 +36,8 @@ export class WordService {
         skip: (pageNo - 1) * pageSize
       }
     );
+
+    console.log(result);
     return {
       items: result,
       total: total
