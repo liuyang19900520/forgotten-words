@@ -4,7 +4,6 @@ import { UpdateWordDto } from "./dto/update-word.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Word } from "./entities/word.entity";
 import { Like, Repository } from "typeorm";
-import { skip, take } from "rxjs/operators";
 
 @Injectable()
 export class WordService {

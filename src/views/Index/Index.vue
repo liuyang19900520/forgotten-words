@@ -4,7 +4,6 @@
 
 <template>
   <div class="index-w">
-    <div class="title">Index.vue</div>
     <keep-alive-router-view/>
     <van-tabbar route>
       <van-tabbar-item icon="home-o" to="/">单词本</van-tabbar-item>

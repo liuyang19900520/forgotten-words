@@ -1,117 +1,73 @@
 <template>
-  <van-list
-    v-model="list"
-    :finished="finished"
-    :error.sync="error"
-    :loading="loading"
-    :immediate-check="false"
-    @load="onLoad"
-    @error="onError"
-    @click="onClick"
-    @update:modelValue="onUpdateList"
-    class="list-demo"
-  >
-    <!-- 迭代列表项 -->
-    <van-cell v-for="(item, index) in list" :key="index" :title="item.chinese"/>
-    <!-- 加载中的Loading -->
-    <van-loading v-if="loading"/>
-    <!-- 无数据时的Empty提示 -->
-    <van-empty v-if="!loading && !list.length" description="暂无数据"/>
-    <!-- 上提加载的观察器 -->
-    <div ref="observer" style="height: 20px;"></div>
-  </van-list>
+  <div class="search-page">
+    <van-search v-model="keyword" placeholder="请输入关键词" show-action @search="onSearch"/>
+    <van-list v-model:loading="isLoading" :finished="isFinished" @load="onLoad" :offset="offset" :total-items="total"
+              :immediate-check="false"
+              finished-text="没有更多了">
+      <van-cell v-for="item in list" :key="item.id" :title="item.chinese"/>
+    </van-list>
+  </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, Ref, watch} from 'vue';
-import {List, Cell, Loading, Empty} from 'vant';
+import {defineComponent, ref} from 'vue';
+import {List, Cell, Search} from 'vant';
 import mdlWordApi, {IWord} from "@/apis/WordApi";
 
-interface ListItem {
-  title: string;
-}
 
 export default defineComponent({
-  components: {
-    VanList: List,
-    VanCell: Cell,
-    VanLoading: Loading,
-    VanEmpty: Empty,
-  },
+  name: 'SearchPage',
+  components: {List, Cell, Search},
   setup() {
-    const list: Ref<IWord[]> = ref([]);
-    const finished = ref(false);
-    const error = ref(false);
-    const loading = ref(false);
-    const page = ref(1); // 当前页数
-    const size = ref(2); // 每页的记录数
+    const keyword = ref('');
+    const list = ref<IWord[]>([]);
+    const total = ref(0);
+    const offset = ref(0);
+    const page = ref(1);
+    const pageSize = ref(0);
+    const isLoading = ref(false);
+    const isFinished = ref(false);
 
-    // 加载数据
-    const loadData = async () => {
-      try {
-        loading.value = true;
-        const newList = await mdlWordApi.list({pageNo: page.value, pageSize: size.value, keyword: 'T'});
-        list.value.push(...newList.items);
-        finished.value = newList.total <= list.value.length;
-      } catch (e) {
-        error.value = true;
-      } finally {
-        loading.value = false;
+    function onSearch() {
+      // 清空列表数据和翻页信息
+      list.value = [];
+      total.value = 0;
+      offset.value = 2;
+      page.value = 1;
+      pageSize.value = 15;
+      isLoading.value = false;
+      isFinished.value = false;
+
+      // 触发加载更多
+      onLoad();
+    }
+
+    async function onLoad() {
+      if (isFinished.value) {
+        return;
       }
-    };
+      isLoading.value = true;
 
-    // 上提加载
-    const onLoad = async () => {
-      page.value++;
-      await loadData();
-    };
+      try {
+        // 模拟异步加载数据
+        const data = await mdlWordApi.list({pageNo: page.value, pageSize: pageSize.value, keyword: keyword.value});
 
-    // 加载数据出错
-    const onError = () => {
-      error.value = true;
-    };
+        // 更新列表数据和翻页信息
+        list.value = [...list.value, ...data.items];
+        total.value = data.total;
+        offset.value = list.value.length;
+        console.log("xxxxxxxxxxxxxxxxxxxxxxx",offset.value)
 
-    // 点击列表项
-    const onClick = (event: MouseEvent, item: ListItem) => {
-      console.log('click', item);
-    };
+        isFinished.value = list.value.length >= data.total;
+        page.value++;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        isLoading.value = false;
+      }
+    }
 
-    // 更新列表数据
-    const onUpdateList = (value: IWord[]) => {
-      console.log('updateList', value);
-      list.value = value;
-    };
-
-    // 监听list的变化，添加上提加载观察器
-    watch(
-      list,
-      () => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting && !loading.value && !finished.value) {
-              onLoad();
-            }
-          },
-          {threshold: 1}
-        );
-        observer.observe(document.querySelector('#app') as Element);
-      },
-      {immediate: true}
-    );
-
-    // 初始化时加载数据
-    loadData();
-
-    return {
-      list,
-      finished,
-      error,
-      loading,
-      onLoad,
-      onError,
-      onClick,
-      onUpdateList,
-    };
+    return {keyword, list, total, offset, isLoading, isFinished, onSearch, onLoad, page, pageSize};
   },
 });
 </script>

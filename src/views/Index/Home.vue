@@ -1,109 +1,131 @@
 <template>
-  <div id="app">
-    <form action="/">
-      <van-search
-        v-model="searchValue"
-        show-action
-        placeholder="请输入搜索关键词"
-        @search="onSearch"
-        @cancel="onCancel"
-      />
-    </form>
+  <div class="search-page">
+    <van-nav-bar right-text="添加">
+      <template #title>
+        <div class="search-container ">
+          <van-search v-model="keyword" placeholder="请输入关键词" @search="onSearch"/>
+        </div>
+      </template>
 
-    <van-list
-      :loading="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onSearch"
-      :immediate-check="false"
-      offset="900"
+    </van-nav-bar>
 
-    >
-      <van-cell v-for="item in list" :key="item" :title="item.chinese"/>
+    <van-list v-model:loading="isLoading" :finished="isFinished" @load="onLoad" :offset="offset" :total-items="total"
+              :immediate-check="false"
+              finished-text="没有更多了">
+      <van-cell v-for="item in list" :key="item.id" :title="item.chinese"
+                :label="'\n'+'Japapese:'+item.japanese+'\n\n'+'Chinese:'+item.english"
+                is-link @click="show = true">
+        <van-icon :name="item.favoriteStar ? 'star' : 'star-o'" @click="toggleFavorite(item)"/>
+
+      </van-cell>
+      <van-action-sheet v-model:show="show" :actions="actions" @select="onSelect" title="标题">
+        <div class="content">内容</div>
+      </van-action-sheet>
+
     </van-list>
   </div>
 </template>
-<script lang="ts">
-import {defineComponent, Ref, ref} from 'vue'
-import mdlWordApi, {IWord} from "@/apis/WordApi";
-import {showToast} from "vant";
 
-interface ListItem {
-  title: string;
-}
+<script lang="ts">
+import {defineComponent, ref} from 'vue';
+import {List, Cell, Search} from 'vant';
+import mdlWordApi, {IWord} from "@/apis/WordApi";
+import {showToast} from 'vant/es/toast';
+
 
 export default defineComponent({
-
+  name: 'SearchPage',
+  components: {List, Cell, Search},
   setup() {
-    const list: Ref<IWord[]> = ref([]);
-    const loading = ref(false);
-    const finished = ref(false);
-    const searchValue = ref('');
+    const keyword = ref('');
+    const list = ref<IWord[]>([]);
+    const total = ref(0);
+    const offset = ref(0);
     const page = ref(1);
-    const pageSize = ref(2);
-    const onCancel = () => showToast('取消');
-    const onSearch = async (value: string) => {
-      console.log('aaaaaaaaaaaaaaaaaaaa', value)
+    const pageSize = ref(0);
+    const isLoading = ref(false);
+    const isFinished = ref(false);
 
-      if (value) {
-        searchValue.value = value;
-        list.value = [];
-        await onLoad();
+    function toggleFavorite(item: IWord) {
+      if (item.favoriteStar === 0) {
+        item.favoriteStar = 1
+      } else {
+        item.favoriteStar = 0
       }
     }
 
-    const onLoad = () => {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      loading.value = true;
-      initWordList()
-      page.value++;
+    const show = ref(false);
 
-    };
+    function onSearch() {
+      // 清空列表数据和翻页信息
+      list.value = [];
+      total.value = 0;
+      offset.value = 2;
+      page.value = 1;
+      pageSize.value = 15;
+      isLoading.value = false;
+      isFinished.value = false;
 
-    const initWordList = async () => {
-      const newList = await mdlWordApi.list({pageNo: page.value, pageSize: pageSize.value, keyword: searchValue.value});
-      list.value.push(...newList.items);
-      loading.value = false
-      finished.value = page.value * pageSize.value > newList.total;
+      // 触发加载更多
+      onLoad();
     }
 
-    // 监听list的变化，添加上提加载观察器
-    watch(
-      list,
-      () => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting && !loading.value && !finished.value) {
-              onLoad();
-            }
-          },
-          { threshold: 1 }
-        );
-        observer.observe(document.querySelector('#app') as Element);
-      },
-      { immediate: true }
-    );
+    async function onLoad() {
+      if (isFinished.value) {
+        return;
+      }
+
+      isLoading.value = true;
+
+      try {
+
+        // 模拟异步加载数据
+        const data = await mdlWordApi.list({pageNo: page.value, pageSize: pageSize.value, keyword: keyword.value});
+        // 更新列表数据和翻页信息
+        list.value = [...list.value, ...data.items];
+        total.value = data.total;
+        offset.value = list.value.length;
+        isFinished.value = list.value.length >= data.total;
+
+        page.value++;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        isLoading.value = false;
+      }
+    }
+
     return {
-      searchValue,
-      list,
-      onSearch,
-      onCancel,
-      onLoad,
-      loading,
-      finished,
-      initWordList
+      keyword, list, total, offset, isLoading, isFinished, onSearch, onLoad, page, pageSize, toggleFavorite, show,
+
     };
   },
-})
+});
 </script>
-
-<style>
-html,
-body {
-  overflow-x: hidden;
+<style scoped>
+.van-cell__label {
+  /* 按照换行符进行换行显示 */
+  white-space: pre-line;
 }
+
+:root {
+  --van-button-primary-border-color: transparent;
+}
+
+.content {
+  padding: 16px 16px 160px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.search-container .van-search {
+  width: 100%;
+  margin-right: 0;
+}
+
+
 </style>
-
-
-
