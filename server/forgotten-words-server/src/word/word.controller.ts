@@ -15,8 +15,9 @@ export class WordController {
 
 
   @Post()
-  create(@Body() createWordDto: CreateWordDto) {
-    return this.wordService.create(createWordDto);
+  async create(@Body() createWordDto: CreateWordDto) {
+    let result = await this.wordService.create(createWordDto);
+    return result;
   }
 
   @Get()

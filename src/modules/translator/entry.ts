@@ -1,7 +1,5 @@
-
-
 import syscfg from './config/syscfg'
-import { initRoutes } from './router'
+import {initRoutes} from './router'
 
 const stModuleName = syscfg.module
 
@@ -9,11 +7,9 @@ const stModuleName = syscfg.module
 export const entryInit = async () => {
   // -------------------------------------------------------------------------
   // - 如果未开启当前业务模块, 终止初始化处理
-  if (!app.checkBmodIsEnable(stModuleName)){
+  if (!app.checkBmodIsEnable(stModuleName)) {
     return
   }
-  console.log("aaaa")
-
   // -------------------------------------------------------------------------
   // - 初始化当前模块的语言包
   app.getAppCtl().mergeLpk(import.meta.glob('./locales/*', {eager: true}))
@@ -29,6 +25,4 @@ export const entryInit = async () => {
   initRoutes()
 }
 
-export default {
-
-}
+export default {}

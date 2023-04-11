@@ -15,7 +15,7 @@ export class WordService {
   }
 
   async create(createWordDto: CreateWordDto) {
-    return await this.repository.save({
+    let result = await this.repository.save({
       ...createWordDto,
       favoriteStar: 0,
       createTime: new Date(),
@@ -23,6 +23,8 @@ export class WordService {
       updateTime: new Date(),
       updateUser: createWordDto.user
     });
+    console.log("liuyang", result);
+    return result;
   }
 
   async findAll(pageNo: number, pageSize: number, keyword: string) {

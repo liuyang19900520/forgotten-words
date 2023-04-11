@@ -18,7 +18,8 @@ export interface IWord {
 
 const initBaseAPIParams: BaseAPIType.IInitParams = {
   uri: {
-    [APIMethods.LIST]: {path: '/words', errMsg: 'err.user.load'},
+    [APIMethods.LIST]: {path: '/words', errMsg: 'xxx'},
+    [APIMethods.POST]: {path: '/words', errMsg: 'yyy'},
   },
 }
 

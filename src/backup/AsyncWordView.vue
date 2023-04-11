@@ -80,7 +80,6 @@ if (route.params.id != null) {
 
 const saveBtnWord = () => {
   try {
-    console.log("saaaa", word);
     let result = saveWord(route.params.id, word);
   } catch {}
 };

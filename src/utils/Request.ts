@@ -1,17 +1,3 @@
-/*! @file
-********************************************************************************
-<PRE>
-文件实现功能   : 基于Axios实现Ajax请求的封装
-作者           : dotdancer
-版本           : 1.0
---------------------------------------------------------------------------------
-备注           : -
---------------------------------------------------------------------------------
-修改记录 :
-日  期       版本    修改人     修改内容
-2022/09/13   1.0     dotdancer  创建
-</PRE>
-*******************************************************************************/
 import axios from 'axios'
 import type {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
 import qs from 'qs'
@@ -63,9 +49,10 @@ axiosInstance.interceptors.response.use((res: AxiosResponse<IResponse>) => {
   const {reqParams = {}} = config as AxiosRequestConfigExt
   const {force401ToLogin = false} = reqParams
 
+
   // -------------------------------------------------------------------------
   // - http: 200状态码情况处理
-  if (200 == status) {
+  if (200 == status || 201 == status || 204 == status) {
     if (data) {
       if (401 == data.code && force401ToLogin) {
         app.getAppCtl().redirectToLogin()
@@ -177,7 +164,7 @@ const Ajax = {
       headers: Object.assign({}, headers),
     }
     timeout && (iSendReqParams.timeout = timeout)
-    console.log("kkkkk", iSendReqParams.data)
+    console.log("liutestparam", iSendReqParams)
 
     // ---------------------------------------------------------------------
     // - 发起请求

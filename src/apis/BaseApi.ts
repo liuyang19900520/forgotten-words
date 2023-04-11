@@ -6,7 +6,10 @@ export {APIMethods} from '@/utils/Constants'
 
 // =============================================================================
 // = 类型定义
-type IFnUrlAndParamsTransfer = (type: string, uriItem: BaseAPIType.IURIItem, params: GlobalType.IRecord) => { url: string, params: GlobalType.IRecord }
+type IFnUrlAndParamsTransfer = (type: string, uriItem: BaseAPIType.IURIItem, params: GlobalType.IRecord) => {
+  url: string,
+  params: GlobalType.IRecord
+}
 
 // =============================================================================
 // = 局部全局方法与变量的定义
@@ -22,8 +25,6 @@ const transferUrlAndParams: IFnUrlAndParamsTransfer = (type, uriItem, params = {
   }
   uriItem.fnUrlTransfer && (url = uriItem.fnUrlTransfer(url, params))
   uriItem.fnParamsTransfer && (params = uriItem.fnParamsTransfer(url, params))
-  console.log(url)
-  console.log(params)
   return {
     url,
     params,
@@ -78,7 +79,9 @@ export default {
         case APIMethods.PUT:
         case APIMethods.PATCH:
         case APIMethods.DELETE: {
+
           iAllMethods[method] = (params: GlobalType.IRecord): Promise<IResponse> => {
+            console.log("test", params)
             return Ajax[method]<T>({
               ...transferUrlAndParams(method, get(initParams, `uri.${method}`), params)
             }).catch((e) => {

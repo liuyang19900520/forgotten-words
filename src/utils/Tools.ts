@@ -4,9 +4,11 @@ const fCachePreventRandom = Math.random(); // 防止API请求被缓存的随机�
 let nCachePreventNum = 0; // API请求防止缓存计数器
 const iTools = {
   //! 显示全局遮罩
-  showLoadMask() {},
+  showLoadMask() {
+  },
   //! 隐藏全局遮罩
-  hideLoadMask() {},
+  hideLoadMask() {
+  },
   //! 防止API请求命中本地缓存
   addCachePrevent(url: string = "") {
     const nQueryStringFlagIndex = url.indexOf("?");
@@ -23,11 +25,11 @@ const iTools = {
   //! 处理API调用错误
   processApiError(
     title: string,
-    res: string | { msg: string } = { msg: "" },
-    options: { bIsShowInfo: boolean } = { bIsShowInfo: true }
+    res: string | { msg: string } = {msg: ""},
+    options: { bIsShowInfo: boolean } = {bIsShowInfo: true}
   ) {
     if ("string" == typeof res) {
-      res = { msg: res };
+      res = {msg: res};
     }
 
     title = lpk(title);
@@ -66,7 +68,7 @@ const iTools = {
   Cookie: {
     // Cookie操作命名空间
     setItem(key: string, value: any) {
-      cookies.set(key, value, { expires: 30 });
+      cookies.set(key, value, {expires: 30});
     },
     getItem(key: string, defaultValue?: any) {
       const stValue = cookies.get(key) || defaultValue;
