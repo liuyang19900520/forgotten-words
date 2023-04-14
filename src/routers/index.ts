@@ -33,6 +33,14 @@ export const initRouter: () => Router = () => {
           },
         },
         {
+          path: "/words/:id",
+          name: "homeDetail",
+          component: () => import("@/views/Index/HomeDetail.vue"),
+          meta: {
+            requireAuth: false,
+          },
+        },
+        {
           path: "/my",
           name: "my",
           component: () => import("@/views/My/My.vue"),

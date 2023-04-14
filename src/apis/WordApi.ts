@@ -18,12 +18,14 @@ export interface IWord {
 
 const initBaseAPIParams: BaseAPIType.IInitParams = {
   uri: {
-    [APIMethods.LIST]: {path: '/words', errMsg: 'xxx'},
-    [APIMethods.POST]: {path: '/words', errMsg: 'yyy'},
+    [APIMethods.LIST]: {path: '/words', errMsg: '单词列表请求失败'},
+    [APIMethods.POST]: {path: '/words', errMsg: '单词添加失败'},
+    [APIMethods.GET]: {path: '/words/:id', errMsg: '单词请求失败'},
+    [APIMethods.DELETE]: {path: '/words/:id', errMsg: '单词删除失败'},
   },
 }
 
 export default {
-  ...mdlBaseApi.initApi<IWord, Pick<BaseAPIType.IMethods<IWord>, APIMethods.GET | APIMethods.LIST | APIMethods.POST>>(initBaseAPIParams),
+  ...mdlBaseApi.initApi<IWord, Pick<BaseAPIType.IMethods<IWord>, APIMethods.GET | APIMethods.LIST | APIMethods.DELETE>>(initBaseAPIParams),
 }
 

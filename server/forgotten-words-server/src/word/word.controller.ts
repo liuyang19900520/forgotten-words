@@ -29,11 +29,11 @@ export class WordController {
 
   @Get(":id")
   async findOne(@Param("id") id: string) {
-    let wordPromise = await this.wordService.findOne(+id);
-    if (wordPromise) {
+    let word = await this.wordService.findOne(+id);
+    if (!word) {
       throw new SystemException("000", "test error");
     }
-    return this.wordService.findOne(+id);
+    return word;
   }
 
   @Put(":id")

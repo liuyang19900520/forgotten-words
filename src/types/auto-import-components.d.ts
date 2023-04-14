@@ -36,6 +36,7 @@ declare module '@vue/runtime-core' {
     VanPopup: typeof import('vant/es')['Popup']
     VanRow: typeof import('vant/es')['Row']
     VanSearch: typeof import('vant/es')['Search']
+    VanSwipeCell: typeof import('vant/es')['SwipeCell']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     WordCard: typeof import('./../components/backup/WordCard.vue')['default']

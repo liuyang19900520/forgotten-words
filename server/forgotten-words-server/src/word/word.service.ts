@@ -46,7 +46,9 @@ export class WordService {
   }
 
   async findOne(id: number) {
-    return await this.repository.findOne(id);
+    let word = await this.repository.findOne(id);
+    console.log(word);
+    return word;
   }
 
   async update(id: number, updateWordDto: UpdateWordDto) {

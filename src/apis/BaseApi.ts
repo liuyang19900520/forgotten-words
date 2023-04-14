@@ -81,7 +81,6 @@ export default {
         case APIMethods.DELETE: {
 
           iAllMethods[method] = (params: GlobalType.IRecord): Promise<IResponse> => {
-            console.log("test", params)
             return Ajax[method]<T>({
               ...transferUrlAndParams(method, get(initParams, `uri.${method}`), params)
             }).catch((e) => {
