@@ -164,7 +164,6 @@ const Ajax = {
       headers: Object.assign({}, headers),
     }
     timeout && (iSendReqParams.timeout = timeout)
-    console.log("liutestparam", iSendReqParams)
 
     // ---------------------------------------------------------------------
     // - 发起请求

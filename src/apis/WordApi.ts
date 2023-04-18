@@ -22,10 +22,12 @@ const initBaseAPIParams: BaseAPIType.IInitParams = {
     [APIMethods.POST]: {path: '/words', errMsg: '单词添加失败'},
     [APIMethods.GET]: {path: '/words/:id', errMsg: '单词请求失败'},
     [APIMethods.DELETE]: {path: '/words/:id', errMsg: '单词删除失败'},
+    [APIMethods.PUT]: {path: '/words', errMsg: '单词删除失败'},
+
   },
 }
 
 export default {
-  ...mdlBaseApi.initApi<IWord, Pick<BaseAPIType.IMethods<IWord>, APIMethods.GET | APIMethods.LIST | APIMethods.DELETE>>(initBaseAPIParams),
+  ...mdlBaseApi.initApi<IWord, Pick<BaseAPIType.IMethods<IWord>, APIMethods.GET | APIMethods.LIST | APIMethods.PUT | APIMethods.DELETE>>(initBaseAPIParams),
 }
 

@@ -1,10 +1,8 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query } from "@nestjs/common";
-import { WordService } from "./word.service";
-import { CreateWordDto } from "./dto/create-word.dto";
-import { UpdateWordDto } from "./dto/update-word.dto";
-import e from "express";
-import { log } from "winston";
-import { SystemException } from "../common/exception/system.exception";
+import {Body, Controller, Delete, Get, Logger, Param, Post, Put, Query} from "@nestjs/common";
+import {WordService} from "./word.service";
+import {CreateWordDto} from "./dto/create-word.dto";
+import {UpdateWordDto} from "./dto/update-word.dto";
+import {SystemException} from "../common/exception/system.exception";
 
 @Controller("words")
 export class WordController {
@@ -22,7 +20,6 @@ export class WordController {
 
   @Get()
   async findAll(@Query("pageNo") pageNo, @Query("pageSize") pageSize, @Query("keyword") keyword) {
-    console.log(pageNo, pageSize, keyword);
     let promise = await this.wordService.findAll(pageNo, pageSize, keyword);
     return promise;
   }
@@ -30,16 +27,16 @@ export class WordController {
   @Get(":id")
   async findOne(@Param("id") id: string) {
     let word = await this.wordService.findOne(+id);
+    console.log(word);
     if (!word) {
       throw new SystemException("000", "test error");
     }
     return word;
   }
 
-  @Put(":id")
-  update(@Param("id") id: string, @Body() updateWordDto: UpdateWordDto) {
-    this.logger.error(updateWordDto);
-    return this.wordService.update(+id, updateWordDto);
+  @Put()
+  update(@Body() updateWordDto: UpdateWordDto) {
+    return this.wordService.update(updateWordDto);
   }
 
   @Delete(":id")

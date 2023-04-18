@@ -41,6 +41,14 @@ export const initRouter: () => Router = () => {
           },
         },
         {
+          path: "/editedWords/:id",
+          name: "homeEdit",
+          component: () => import("@/views/Index/HomeEdit.vue"),
+          meta: {
+            requireAuth: false,
+          },
+        },
+        {
           path: "/my",
           name: "my",
           component: () => import("@/views/My/My.vue"),
@@ -56,13 +64,13 @@ export const initRouter: () => Router = () => {
       path: LOGIN_PATH,
       name: "login",
       component: () => import("@/views/Login/Login.vue"),
-      meta: { title: lpk("page.login.Title"), requireAuth: false },
+      meta: {title: lpk("page.login.Title"), requireAuth: false},
     },
     {
       path: "/regist",
       name: "regist",
       component: () => import("@/views/Login/Regist.vue"),
-      meta: { title: lpk("page.regist.Title"), requireAuth: false },
+      meta: {title: lpk("page.regist.Title"), requireAuth: false},
     },
   ];
 
@@ -109,7 +117,7 @@ export const initRouter: () => Router = () => {
     ) {
       next({
         path: LOGIN_PATH,
-        query: { redirect: to.fullPath },
+        query: {redirect: to.fullPath},
       });
 
       return;

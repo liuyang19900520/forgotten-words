@@ -58,7 +58,7 @@
           </van-popup>
         </van-cell-group>
         <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit">
+          <van-button plain round block type="primary" native-type="submit">
             提交
           </van-button>
         </div>
@@ -92,8 +92,8 @@
           <van-button
             square
             type="danger"
-            size="small"
             text="Delete"
+            class="delete-button"
             @click="onDelete(item.id)"
           />
         </template>
@@ -107,10 +107,11 @@ import {defineComponent, ref} from 'vue';
 import {List, Cell, Search} from 'vant';
 import mdlWordApi, {IWord} from "@/apis/WordApi";
 import {showToast} from 'vant/es/toast';
+import {useRoute} from "vue-router";
 
 
 export default defineComponent({
-  name: 'SearchPage',
+  name: 'Home',
   components: {List, Cell, Search},
   setup() {
     const keyword = ref('');
@@ -140,7 +141,19 @@ export default defineComponent({
     ];
     const showPicker = ref(false);
 
-    const onConfirm = ({selectedOptions}) => {
+    const route = useRoute();
+    watch(
+      () => route.params,
+      async (to, from) => {
+        if (to.id !== from.id) {
+          // 在这里根据新的路由参数更新数据
+          await onSearch();
+        }
+      },
+      {deep: true}
+    );
+
+    const onConfirm = ({selectedOptions}: any) => {
       showPicker.value = false;
       type.value = selectedOptions[0].text;
     };
@@ -159,7 +172,6 @@ export default defineComponent({
       }
 
       const data = await mdlWordApi.post(input);
-      console.log(data)
       if (data.code == 0) {
         showToast("创建单词成功")
         showSheet.value = false;
@@ -185,13 +197,11 @@ export default defineComponent({
 
     const onCancel = () => showToast('取消');
     const onDelete = async (id: number) => {
-      alert(id)
       const data = await mdlWordApi.delete({"id": id});
       if (data.code == 0) {
         showToast("删除单词成功")
         onSearch();
       }
-
     };
 
     function onSearch() {
@@ -274,15 +284,8 @@ export default defineComponent({
   --van-button-primary-border-color: transparent;
 }
 
-
-.content {
-  padding: 16px 16px 160px;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  width: 80%;
+.delete-button {
+  height: 100%;
 }
 
 .search-container .van-search {

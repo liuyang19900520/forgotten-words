@@ -47,12 +47,11 @@ export class WordService {
 
   async findOne(id: number) {
     let word = await this.repository.findOne(id);
-    console.log(word);
     return word;
   }
 
-  async update(id: number, updateWordDto: UpdateWordDto) {
-    const word = await this.repository.findOne(id);
+  async update(updateWordDto: UpdateWordDto) {
+    const word = await this.repository.findOne(updateWordDto.id);
 
     return await this.repository.save({
       ...word,

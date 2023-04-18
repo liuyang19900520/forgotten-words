@@ -56,7 +56,6 @@ export default defineComponent({
         list.value = [...list.value, ...data.items];
         total.value = data.total;
         offset.value = list.value.length;
-        console.log("xxxxxxxxxxxxxxxxxxxxxxx",offset.value)
 
         isFinished.value = list.value.length >= data.total;
         page.value++;
