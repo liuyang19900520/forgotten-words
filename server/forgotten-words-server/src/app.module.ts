@@ -7,6 +7,7 @@ import { WordModule } from "./word/word.module";
 import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { TransformInterceptor } from "./common/interceptor/transform.interceptor";
 import { HttpExceptionFilter } from "./common/filter/http-exception.filter";
+import { TranslatorController } from './translator/translator.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { HttpExceptionFilter } from "./common/filter/http-exception.filter";
   }, {
     provide: APP_FILTER,
     useClass: HttpExceptionFilter
-  }]
+  }],
+  controllers: [TranslatorController]
 })
 export class AppModule {
 }

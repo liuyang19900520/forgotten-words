@@ -83,10 +83,17 @@
         right-width="65"
       >
         <van-cell :title="item.english"
-                  :label="'\n'+'Japapese:'+item.japanese+'\n\n'+'Chinese:'+item.chinese"
                   is-link :to="`/words/${item.id}`"
         >
-          <van-icon :name="item.favoriteStar ? 'star' : 'star-o'" @click="toggleFavorite(item)"/>
+          <template #label>
+            <div>
+              Japanese : {{ item.japanese }}
+            </div>
+            <div>
+              Chinese : {{ item.chinese }}
+            </div>
+          </template>
+          <van-icon :name="item.favoriteStar ? 'star' : 'star-o'" readonly allow-half class="star"/>
         </van-cell>
         <template #right>
           <van-button
@@ -275,10 +282,6 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-.van-cell__label {
-  /* 按照换行符进行换行显示 */
-  white-space: pre-line;
-}
 
 :root {
   --van-button-primary-border-color: transparent;
@@ -293,5 +296,8 @@ export default defineComponent({
   margin-right: 0;
 }
 
+.star {
+  color: #ffd21e;
+}
 
 </style>

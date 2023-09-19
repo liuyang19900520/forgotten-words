@@ -154,9 +154,7 @@ export default defineComponent({
       } else {
         console.log(data)
       }
-
     };
-
 
     const onDelete = async (id: number) => {
       console.log(id);

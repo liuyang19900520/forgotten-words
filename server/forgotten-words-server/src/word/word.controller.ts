@@ -18,11 +18,11 @@ export class WordController {
     return result;
   }
 
-  @Get()
-  async findAll(@Query("pageNo") pageNo, @Query("pageSize") pageSize, @Query("keyword") keyword) {
-    let promise = await this.wordService.findAll(pageNo, pageSize, keyword);
-    return promise;
-  }
+    @Get()
+    async findAll(@Query("pageNo") pageNo, @Query("pageSize") pageSize, @Query("keyword") keyword) {
+      let promise = await this.wordService.findAll(pageNo, pageSize, keyword);
+      return promise;
+    }
 
   @Get(":id")
   async findOne(@Param("id") id: string) {
